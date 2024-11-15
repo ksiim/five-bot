@@ -18,3 +18,4 @@ async def start(message: Message):
         text=greeting_message,
         reply_markup=web_app_inline_markup
     )
+    await bot.me()

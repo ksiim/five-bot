@@ -23,11 +23,11 @@ async def get_db():
 SessionDep = Annotated[AsyncSession, Depends(get_db)]
 
 
-async def get_current_user(session: SessionDep):
+async def get_current_user(session: SessionDep, ):
     user = await session.get(User)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    if user.blocked:
+    if not user.admin:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
 
