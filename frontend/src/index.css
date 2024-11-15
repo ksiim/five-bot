@@ -1,0 +1,122 @@
+@import "./assets/fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 422px) {
+    /* Стили для экранов меньше 375px */
+    .container {
+        width: 100%;
+        max-width: 422px; /* Максимальная ширина для мини приложения */
+        height: 625px; /* Максимальная высота для мини приложения */
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #D1E3F8, #F6F0FF);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Balsamiq Sans", sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 4vh;
+
+    background-image: url("./assets/images/glassFront.jpg");
+    background-size: cover;
+}
+
+.top-nav {
+    width: 100vw;
+    height: 4.77vh;
+    padding-right: 6vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.currency-info{
+    height: 2.69vh;
+    width: 7.3vw;
+    display: flex;
+    justify-content: center;
+    font-size: 1em;
+    margin-bottom: 1vh;
+}
+
+.balance-info {
+    width: 21.3vw;
+    height: 8.6vh;
+    text-align: center;
+    font-size: 1em;
+    color: #fff;
+}
+
+.balance-info h2 {
+    font-size: 0.02vh;
+    margin: 0;
+}
+
+.balance-info h1 {
+    font-size: 48px;
+    margin: 0;
+}
+
+.hand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.hand-image {
+    width: 150px;
+}
+
+.info-text {
+    color: white;
+    font-size: 18px;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.nav-item {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+}
+
+.bottom-nav .img {
+    color: #CFCFCF
+}
