@@ -1,6 +1,10 @@
-import FiveBot from './FiveBot.tsx';
-import {TG, request} from '../api/request.ts';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {request} from '../api/request.ts';
 import {useEffect, useState} from 'react';
+import FiveBot from '../pages/Clicker/FiveBot.tsx';
+import Friends from '../pages/Friends/Friends.tsx';
+import Airdrop from '../pages/Airdrop/Airdrop.tsx';
+import Rating from '../pages/Rating/Rating.tsx';
 
 function App() {
   const [user, setUser] = useState({
@@ -19,9 +23,14 @@ function App() {
   }, [])
   
   return (
-    <>
-      <FiveBot data={user} setUser={setUser}/>
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element={<FiveBot data={user}/>}/>
+        <Route path='/friends' element={<Friends/>}/>
+        <Route path='/airdrop' element={<Airdrop/>}/>
+        <Route path='/rating' element={<Rating/>}/>
+      </Routes>
+    </Router>
   )
 }
 
