@@ -15,4 +15,5 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
 )
 
+
 app.include_router(api_router, prefix=API_V1_STR)

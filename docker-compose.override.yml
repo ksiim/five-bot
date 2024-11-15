@@ -1,0 +1,55 @@
+services:
+  db:
+    restart: "no"
+    ports:
+      - "5432:5432"
+
+  adminer:
+    restart: "no"
+    ports:
+      - "8080:8080"
+
+  backend:
+    restart: "no"
+    ports:
+      - "8000:8000"
+    build:
+      context: ./backend
+    # command: sleep infinity  # Infinite loop to keep container alive doing nothing
+    command:
+      - fastapi
+      - run
+      - --reload
+      - "app/main.py"
+    develop:
+      watch:
+        - path: ./backend
+          action: sync
+          target: /app
+          ignore:
+            - ./backend/.venv
+            - .venv
+        - path: ./backend/pyproject.toml
+          action: rebuild
+    # TODO: remove once coverage is done locally
+    volumes:
+      - ./backend/htmlcov:/app/htmlcov
+
+  bot:
+    restart: "no"
+    build:
+      context: ./bot
+    # command: sleep infinity  # Infinite loop to keep container alive doing nothing
+    command:
+      - python
+      - "main.py"
+    develop:
+      watch:
+        - path: ./bot
+          action: rebuild
+          target: /app
+          ignore:
+            - ./bot/.venv
+            - .venv
+        - path: ./bot/pyproject.toml
+          action: rebuild
