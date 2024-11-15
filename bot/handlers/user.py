@@ -14,4 +14,7 @@ from .markups import *
 
 @dp.message(Command("start"))
 async def start(message: Message):
-    await message.answer(greeting_message)
+    await message.answer(
+        text=greeting_message,
+        reply_markup=web_app_inline_markup
+    )
