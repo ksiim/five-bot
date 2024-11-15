@@ -13,6 +13,7 @@ class UserBase(SQLModel):
     balance: int = Field(default=0)
     premium: bool = Field(default=False)
     from_user: uuid.UUID | None = Field(default=None)
+    admin: bool | None = Field(default=False)
     
 class UserCreate(UserBase):
     pass
@@ -37,9 +38,81 @@ class Airdrop(SQLModel, table=True):
     transactions_done: bool = Field(default=False)
     reward: int
     
-class Transaction(SQLModel, table=True):
+class TaskTypeBase(SQLModel):
+    task_name: str
+    
+class TaskTypeCreate(TaskTypeBase):
+    pass
+
+class TaskType(TaskTypeBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    
+class TaskTypePublic(TaskTypeBase):
+    id: uuid.UUID
+    
+class TaskTypesPublic(SQLModel):
+    data: list[TaskType]
+    count: int
+    
+class TaskTypeUpdate(TaskTypeBase):
+    pass
+    
+class UserTaskBase(SQLModel):
     user_id: uuid.UUID = Field(foreign_key="user.id")
-    amount: int
-    type: str = Field(nullable=False)
+    task_id: uuid.UUID = Field(foreign_key="task.id")
+
+class UserTaskCreate(UserTaskBase):
+    pass
+
+class UserTask(UserTaskBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    completed_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    
+class UserTaskPublic(UserTaskBase):
+    id: uuid.UUID
+    completed_at: datetime.datetime
+    
+class UserTasksPublic(SQLModel):
+    data: list[UserTask]
+    count: int
+    
+class UserTaskUpdate(UserTaskBase):
+    user_id: uuid.UUID | None = None
+    task_id: uuid.UUID | None = None
+    
+class TaskBase(SQLModel):
+    title: str
+    description: str
+    reward: int
+    link: str | None = Field(default=None, nullable=True)
+    verification_link: str | None = Field(default=None, nullable=True)
+    task_type_id: uuid.UUID = Field(foreign_key="tasktype.id")
+    
+class TaskCreate(TaskBase):
+    pass
+
+class Task(TaskBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    
+class TaskPublic(TaskBase):
+    id: uuid.UUID
+    
+class TasksPublic(SQLModel):
+    data: list[TaskPublic]
+    count: int
+    
+class TaskUpdate(TaskBase):
+    title: str | None = None
+    description: str | None = None
+    reward: int | None = None
+    link: str | None = Field(default=None, nullable=True)
+    verification_link: str | None = None
+    task_type_id: uuid.UUID | None = None
+    
+# class Transaction(SQLModel, table=True):
+#     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+#     user_id: uuid.UUID = Field(foreign_key="user.id")
+#     amount: int
+#     type: str = Field(nullable=False)
+#     created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
