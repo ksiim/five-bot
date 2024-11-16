@@ -1,0 +1,105 @@
+@import "../../assets/fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 422px) {
+  /* Стили для экранов меньше 375px */
+  .container {
+    width: 100%;
+    max-width: 422px; /* Максимальная ширина для мини приложения */
+    height: 625px; /* Максимальная высота для мини приложения */
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #D1E3F8, #F6F0FF);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Balsamiq Sans", sans-serif;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url("../../assets/images/glassFront.jpg");
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 22vw 5vw 0;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: left;
+  margin-bottom: 5vw;
+}
+
+.button {
+  margin-bottom: 7vw;
+}
+
+p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.bottomnav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%; /* Полная ширина экрана */
+  padding: 10px 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px 10px 0 0;
+}
+
+.navitem {
+  width: 13.8vw;
+  height: 18vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 2vw;
+  text-align: center;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+
+  img {
+    color: #CFCFCF;
+    height: 9.7vw;
+  }
+}
+
+
+

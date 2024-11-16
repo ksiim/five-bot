@@ -1,0 +1,54 @@
+@charset "UTF-8";
+@import "../../assets/fonts.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 422px) {
+  /* Стили для экранов меньше 375px */
+  .container {
+    width: 100%;
+    max-width: 422px; /* Максимальная ширина для мини приложения */
+    height: 625px; /* Максимальная высота для мини приложения */
+  }
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #D1E3F8, #F6F0FF);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Balsamiq Sans", sans-serif;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url("../../assets/images/glassFront.jpg");
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 22vw 4.2vw 0;
+  width: 100%;
+}
+
+.taskList {
+  width: 100%;
+}
+
+/*# sourceMappingURL=Tasks.module.css.map */

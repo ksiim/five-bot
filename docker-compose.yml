@@ -85,6 +85,17 @@ services:
     build:
       context: ./backend
 
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    restart: always
+    networks:
+      - five_bot
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=https://api.${DOMAIN?Variable not set}
+        - NODE_ENV=production
+
   bot:
     image: '${DOCKER_IMAGE_BOT?Variable not set}:${TAG-latest}'
     restart: always

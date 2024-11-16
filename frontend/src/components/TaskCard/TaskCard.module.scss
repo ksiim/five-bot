@@ -1,0 +1,59 @@
+// TaskCard.module.scss
+.taskCard {
+  width: 100%;
+  display: flex;
+  gap: 7.2vw;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #EEF2FF;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken(#EEF2FF, 5%);
+  }
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info{
+  display: flex;
+  flex-direction: column;
+  gap: 1.7vw;
+ }
+
+.icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.taskName {
+  font-size: 14px;
+  color: #1F2937;
+  font-weight: 500;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cost {
+  color: #1F2937;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.arrow img {
+  width: 6vw;
+  height: auto;
+}
