@@ -8,9 +8,32 @@ import friends from '../../assets/images/friends.svg'
 import highFive from '../../assets/images/highFive.svg'
 import rating from '../../assets/images/rating.svg'
 import tasks from '../../assets/images/tasks.svg'
+import {useNavigate} from 'react-router-dom';
 
 
 const FiveBot: React.FC<FiveBotProps> = ({ data }) => {
+  const navigate = useNavigate()
+  
+  const handleAirdrop = () => {
+    navigate('/airdrop')
+  }
+  
+  const handleFriends = () => {
+    navigate('/friends')
+  }
+  
+  const handleClicker = () => {
+    navigate('/')
+  }
+  
+  const handleTasks = () => {
+    navigate('/tasks')
+  }
+  
+  const handleRating = () => {
+    navigate('/rating')
+  }
+  
   return (
     <div className={styles.container}>
       {/* Верхний текст с именем пользователя и балансом */}
@@ -37,11 +60,11 @@ const FiveBot: React.FC<FiveBotProps> = ({ data }) => {
       
       {/* Нижняя панель навигации */}
       <div className={styles.bottomnav}>
-        <div className={styles.navitem}><img src={airdrop} alt="" className=""/>Airdrop</div>
-        <div className={styles.navitem}><img src={tasks} alt='' className='' />Задания</div>
-        <div className={styles.navitem}><img src={highFive} alt='' className='' />Дай пять</div>
-        <div className={styles.navitem}><img src={friends} alt='' className='' />Друзья</div>
-        <div className={styles.navitem}><img src={rating} alt='' className='' />Рейтинг</div>
+        <div className={styles.navitem}><button onClick={handleAirdrop}><img src={airdrop} alt="" className=""/>Airdrop</button></div>
+        <div className={styles.navitem}><button onClick={handleTasks}><img src={tasks} alt='' className='' />Задания</button></div>
+        <div className={styles.navitem}><button onClick={handleClicker}><img src={highFive} alt='' className='' />Дай пять</button></div>
+        <div className={styles.navitem}><button onClick={handleFriends}><img src={friends} alt='' className='' />Друзья</button></div>
+        <div className={styles.navitem}><button onClick={handleRating}><img src={rating} alt='' className='' />Рейтинг</button></div>
       </div>
     </div>
   );
