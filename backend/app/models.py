@@ -110,6 +110,30 @@ class TaskUpdate(TaskBase):
     verification_link: str | None = None
     task_type_id: uuid.UUID | None = None
     
+class SettingBase(SQLModel):
+    name: str
+    value: str
+    
+class SettingCreate(SettingBase):
+    pass
+
+class Setting(SettingBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    updated_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    
+class SettingPublic(SettingBase):
+    id: uuid.UUID
+    
+class SettingsPublic(SQLModel):
+    data: list[SettingPublic]
+    count: int
+    
+class SettingUpdate(SettingBase):
+    name: str | None = None
+    value: str | None = None
+
+    
 # class Transaction(SQLModel, table=True):
 #     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 #     user_id: uuid.UUID = Field(foreign_key="user.id")
