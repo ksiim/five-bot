@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from backend.app.crud import settings
+from app.crud import settings
 
 from .config import *
 from app.models import Setting, User, SQLModel
@@ -23,4 +23,10 @@ async def init_db(session: AsyncSession) -> None:
     settings = (await session.execute(select(Setting))).scalars().all()
     
     if not settings:
+        give_five = Setting(name="give_five_value", value=GIVE_FIVE_VALUE)
+        give_five_to_referrer = Setting(name="give_five_to_referrer_value", value=GIVE_FIVE_TO_REFERRER_VALUE)
         
+        session.add(give_five)
+        session.add(give_five_to_referrer)
+        
+        await session.commit()

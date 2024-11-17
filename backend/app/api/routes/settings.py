@@ -28,7 +28,7 @@ async def read_settings(
     count = (await session.execute(count_statement)).scalar()
     statement = statement.offset(skip).limit(limit)
     settings = (await session.execute(statement)).scalars().all()
-    return settings
+    return SettingsPublic(count=count, data=settings)
 
 @router.post(
     '/',
