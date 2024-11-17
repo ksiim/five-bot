@@ -9,7 +9,7 @@ from app.models import (
 )
 from app.api.deps import SessionDep
 
-from app.crud import settings as crud_settings
+from app.crud import setting as crud_settings
 
 router = APIRouter()
 

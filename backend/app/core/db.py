@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
-from app.crud import settings
+from app.crud import setting
 
 from .config import *
 from app.models import Setting, User, SQLModel

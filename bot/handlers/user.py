@@ -15,7 +15,6 @@ from .markups import *
 @dp.message(Command("start"))
 async def start(message: Message):
     await message.answer(
-        text=greeting_message,
+        text=await generate_greeting_message(message),
         reply_markup=web_app_inline_markup
     )
-    await bot.me()

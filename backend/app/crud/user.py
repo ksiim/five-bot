@@ -36,6 +36,10 @@ async def get_user_by_telegram_id(session: AsyncSession, telegram_id) -> User:
     statement = select(User).filter(User.telegram_id == telegram_id)
     return (await session.execute(statement)).scalar_one_or_none()
 
+async def get_user_by_id(session: AsyncSession, user_id: uuid.UUID) -> User:
+    statement = select(User).filter(User.id == user_id)
+    return (await session.execute(statement)).scalar_one_or_none()
+
 async def update_user(*, session: AsyncSession, user: User, user_update: UserCreate) -> User:
     user_update_data = user_update.model_dump(exclude_unset=True, exclude={"telegram_id", "from_user"})
     for key, value in user_update_data.items():
@@ -45,8 +49,8 @@ async def update_user(*, session: AsyncSession, user: User, user_update: UserCre
     await session.refresh(user)
     return user
 
-async def update_balance(*, session: AsyncSession, user: User, balance: int) -> User:
-    user.balance = balance
+async def update_balance(session: AsyncSession, user: User, balance: int) -> User:
+    user.balance += balance
     session.add(user)
     await session.commit()
     await session.refresh(user)

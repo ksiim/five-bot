@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import col, delete, func, select
 
 from app.crud import user as crud_user
+from app.crud import setting as crud_setting
 from app.api.deps import (
     CurrentUser,
     SessionDep,
@@ -164,8 +165,46 @@ async def give_five(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    user = await crud_user.update_balance(session, user, 5)
+    if user.last_five_timestamp:
+        if (datetime.datetime.now() - user.last_five_timestamp).days < 1:
+            raise HTTPException(status_code=400, detail="You can give five only once a day")
+    
+    give_five_value = await crud_setting.get_setting_by_name(session, "give_five_value")
+    
+    if user.from_user_id:
+        from_user = await crud_user.get_user_by_id(session, user.from_user_id)
+        if not from_user:
+            raise HTTPException(status_code=404, detail="From user not found")
+        
+        give_five_to_referrer_value = crud_setting.get_setting_by_name(
+            session, "give_five_to_referrer_value"
+        )
+        
+        await crud_user.update_balance(
+            session, from_user,
+            int(give_five_to_referrer_value.value)
+        )
+    
+    user = await crud_user.update_balance(session, user, int(give_five_value.value))
+    user.last_five_timestamp = datetime.datetime.now()
+    
     await session.commit()
     await session.refresh(user)
     
-    return user.balance
+    return user
+
+@router.get(
+    '/user/rate/{telegram_id}',
+)
+async def get_user_rate(
+    telegram_id: int,
+    session: SessionDep
+):
+    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    count = await session.execute(select(func.count(User.id)).where(User.balance > user.balance))
+    rate = count.scalar()
+    
+    return rate + 1
