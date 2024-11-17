@@ -101,6 +101,7 @@ async def update_task(
 
 @router.get(
     '/user/{telegram_id}',
+    response_model=TasksPublic,
 )
 async def read_tasks_for_telegram_id(
     telegram_id: int,
