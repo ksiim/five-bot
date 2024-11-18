@@ -1,41 +1,56 @@
+// App.tsx
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { request } from '../api/request';
 import { useEffect, useState } from 'react';
 import FiveBot from '../pages/Clicker/FiveBot';
 import Friends from '../pages/Friends/Friends';
 import Airdrop from '../pages/Airdrop/Airdrop';
 import Rating from '../pages/Rating/Rating';
 import Tasks from '../pages/Tasks/Tasks';
-
-// Типизация для user (если используется TypeScript)
-type User = {
-  id: number;
-  username: string;
-  energy: number;
-  balance: number;
-};
+import { registerUser} from '../services/userService';
+import {IUser} from '../interfaces/User.ts';
 
 function App() {
-  // Состояние пользователя
-  const [user, setUser] = useState<User>({
-    id: 0,
-    username: 'Unknown',
-    energy: 0,
+  const [user, setUser] = useState<IUser>({
+    username: "guest",
+    telegram_id: 0,
     balance: 0,
+    premium: false,
+    from_user_id: null,
+    admin: false
   });
   
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
   useEffect(() => {
-    const fetchData = async () => {
+    const initUser = async () => {
       try {
-        const response: User = await request('user'); // Типизация ответа API
-        setUser(response);
-      } catch (error) {
-        console.error('Ошибка загрузки данных пользователя:', error);
+        setLoading(true);
+        // Получаем referralUserId из URL если есть
+        const urlParams = new URLSearchParams(window.location.search);
+        const referralUserId = urlParams.get('ref');
+        
+        const userData = await registerUser(referralUserId);
+        setUser(userData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Произошла ошибка при инициализации');
+        console.error('Ошибка инициализации пользователя:', err);
+      } finally {
+        setLoading(false);
       }
     };
     
-    fetchData();
+    initUser();
   }, []);
+  
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
+  
+  if (error) {
+    console.log({error});
+  }
   
   return (
     <Router>

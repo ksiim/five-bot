@@ -1,23 +1,23 @@
-const DEFAULT_URL = ''
+//const DEFAULT_URL = '';
 
 //@ts-ignore
-const TG = window.Telegram.WebApp
+const TG = window.Telegram.WebApp;
+TG.expand();
 
-async function request(endpoint: string, method: string = 'GET', data?: any){
-  const options: RequestInit = {
-    method: method,
-    headers: {
-      Authorization: TG.initData,
-      ContentType: "application/json",
-      Access: "application/json"
-    },
-    body: data ? JSON.stringify(data) : undefined,
+async function request(endpoint: string, method: string, body: any): Promise<any> {
+  const response = await fetch(`https://lx6v2rq8-5173.euw.devtunnels.ms/api/v1/${endpoint}`, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text(); // Прочитать текст ошибки
+    throw new Error(`Ошибка: ${response.status} - ${errorText}`);
   }
   
-  const response = await fetch(`${DEFAULT_URL}/api/${endpoint}`, options);
-  const jsonData = await response.json();
-  
-  if (response.ok) return jsonData;
+  return response.json(); // Убедитесь, что тело читается только один раз
 }
 
-export {TG, request}
+
+export { TG, request };

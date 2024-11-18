@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import "../../assets/fonts.css";
 @tailwind base;
 @tailwind components;
@@ -9,14 +8,6 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 422px) {
-  /* Стили для экранов меньше 375px */
-  .container {
-    width: 100%;
-    max-width: 422px; /* Максимальная ширина для мини приложения */
-    height: 625px; /* Максимальная высота для мини приложения */
-  }
-}
 body {
   margin: 0;
   padding: 0;
@@ -45,29 +36,17 @@ body {
   align-items: start;
   padding: 22vw 4.2vw 0;
   width: 100%;
+  height: calc(100vh - 20vw);
 }
 
 .content {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 7.5vw;
+  position: sticky;
+  top: 22vw;
+  z-index: 2;
+  background: inherit;
 }
-
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: 3.33vw;
-}
-
-.list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 3.33vw;
-}
-
-h1 {
+.content h1 {
   font-size: 30px;
   font-weight: bold;
   color: #ffffff;
@@ -75,14 +54,43 @@ h1 {
   margin-bottom: 4.7vw;
 }
 
+.fixedUserCard {
+  width: 100%;
+  margin-bottom: 7.5vw;
+}
+
+.scrollableList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3.33vw;
+  overflow-y: auto;
+  padding-bottom: 20vw;
+}
+.scrollableList::-webkit-scrollbar {
+  width: 0px;
+}
+.scrollableList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.scrollableList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
 .bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%; /* Полная ширина экрана */
+  width: 100%;
   padding: 10px 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(130, 159, 200);
   border-radius: 10px 10px 0 0;
+  z-index: 10;
 }
 
 .navitem {
@@ -92,6 +100,10 @@ h1 {
   flex-direction: column;
   justify-content: space-around;
   gap: 2vw;
+}
+.navitem button {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   align-items: center;
   color: white;
@@ -100,6 +112,13 @@ h1 {
 .navitem img {
   color: #CFCFCF;
   height: 9.7vw;
+  margin-bottom: 2vw;
+}
+
+@media (max-width: 422px) {
+  .container {
+    max-width: 422px;
+  }
 }
 
 /*# sourceMappingURL=Rating.module.css.map */

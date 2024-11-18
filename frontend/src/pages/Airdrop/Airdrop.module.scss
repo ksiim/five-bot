@@ -53,6 +53,21 @@ body {
 .content {
   display: flex;
   flex-direction: column;
+  h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: left;
+  margin-bottom: 4.7vw;
+}
+
+  h2{
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: left;
+    margin-bottom: 5.5vw;
+  }
 }
 
 .info{
@@ -61,21 +76,7 @@ body {
   gap: 3.33vw;
 }
 
-h1 {
-  font-size: 30px;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: left;
-  margin-bottom: 4.7vw;
-}
 
-h2{
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: left;
-  margin-bottom: 5.5vw;
-}
 
 .button {
   margin-bottom: 7vw;
@@ -108,13 +109,17 @@ h2{
 }
 
 .bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%; /* Полная ширина экрана */
+  width: 100%;
   padding: 10px 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(130, 159, 200);
   border-radius: 10px 10px 0 0;
+  z-index: 10;
 }
 
 .navitem {
@@ -124,14 +129,21 @@ h2{
   flex-direction: column;
   justify-content: space-around;
   gap: 2vw;
-  text-align: center;
-  align-items: center;
-  color: white;
-  font-size: 10px;
+
+  button {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    color: white;
+    font-size: 10px;
+  }
+
 
   img {
     color: #CFCFCF;
     height: 9.7vw;
+    margin-bottom: 2vw;
   }
 }
 

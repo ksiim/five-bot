@@ -5,12 +5,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: #EEF2FF;
+  background-color: rgba(113, 137, 173, 0.35);
   border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-.taskCard:hover {
+.taskCard:active {
   background-color: rgb(212.5, 222.5, 255);
 }
 
@@ -35,7 +35,7 @@
 
 .taskName {
   font-size: 14px;
-  color: #1F2937;
+  color: #ffffff;
   font-weight: 500;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .cost {
-  color: #1F2937;
+  color: #ffffff;
   font-weight: 500;
   font-size: 14px;
 }

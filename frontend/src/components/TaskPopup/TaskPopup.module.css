@@ -1,0 +1,55 @@
+.popup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 58vw;
+  background-color: rgb(132, 150, 200);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  padding: 30px 15px 38px 15px;
+  z-index: 100;
+  border-radius: 10px 10px 0 0;
+}
+
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 5vw;
+  cursor: pointer;
+}
+
+.info {
+  display: flex;
+  gap: 3.33vw;
+  justify-content: start;
+}
+.info__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.665vw;
+}
+
+.icon {
+  width: 12.8vw;
+  height: auto;
+}
+
+.actionButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=TaskPopup.module.css.map */

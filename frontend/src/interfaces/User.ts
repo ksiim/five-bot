@@ -1,8 +1,10 @@
 export interface IUser{
-  id: number,
-  username:string,
-  energy: number,
-  balance:number
+  username: string | null,
+  telegram_id: number,
+  balance: number,
+  premium: boolean,
+  from_user_id: string | null,
+  admin: boolean
 }
 
 export interface UserProps{

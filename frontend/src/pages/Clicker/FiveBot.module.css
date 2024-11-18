@@ -31,7 +31,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 11vw;
   align-items: center;
   height: 100vh;
   width: 100vw;
@@ -108,13 +108,17 @@ body {
 }
 
 .bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%; /* Полная ширина экрана */
+  width: 100%;
   padding: 10px 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(130, 159, 200);
   border-radius: 10px 10px 0 0;
+  z-index: 10;
 }
 
 .navitem {
@@ -124,6 +128,10 @@ body {
   flex-direction: column;
   justify-content: space-around;
   gap: 2vw;
+}
+.navitem button {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   align-items: center;
   color: white;
@@ -132,6 +140,7 @@ body {
 .navitem img {
   color: #CFCFCF;
   height: 9.7vw;
+  margin-bottom: 2vw;
 }
 
 /*# sourceMappingURL=FiveBot.module.css.map */

@@ -2,11 +2,14 @@
   width: 100%;
   height: 9vh;
   border-radius: 2vw;
-  background-color: rgb(64, 79, 101);
+  background-color: rgba(113, 137, 173, 0.35);
   padding: 2.77vw 3.33vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.card.currentUser {
+  background-color: rgba(64, 79, 100, 0.35);
 }
 
 .info {

@@ -9,14 +9,6 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 422px) {
-  /* Стили для экранов меньше 375px */
-  .container {
-    width: 100%;
-    max-width: 422px; /* Максимальная ширина для мини приложения */
-    height: 625px; /* Максимальная высота для мини приложения */
-  }
-}
 body {
   margin: 0;
   padding: 0;
@@ -33,22 +25,79 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   background-image: url("../../assets/images/glassFront.jpg");
   background-size: cover;
+  position: relative; /* Добавлено для позиционирования bottomnav */
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 22vw 4.2vw 0;
+  flex: 1;
   width: 100%;
+  overflow-y: auto; /* Добавляем скролл */
+  padding-bottom: 120px; /* Отступ для bottomnav */
+}
+
+.content {
+  padding: 22vw 4.2vw 0;
+}
+.content h1 {
+  font-size: 8.3vw;
+  margin-bottom: 5.5vw;
+  color: #ffffff;
+  font-weight: bold;
+}
+.content p {
+  margin-bottom: 5.5vw;
 }
 
 .taskList {
+  padding: 0 4.2vw;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3.3vw;
+}
+
+.bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background-color: rgb(130, 159, 200);
+  border-radius: 10px 10px 0 0;
+  z-index: 10;
+}
+
+.navitem {
+  width: 13.8vw;
+  height: 18vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 2vw;
+}
+.navitem button {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+}
+.navitem img {
+  color: #CFCFCF;
+  height: 9.7vw;
+  margin-bottom: 2vw;
+}
+
+@media (max-width: 422px) {
+  .container {
+    max-width: 422px;
+  }
 }
 
 /*# sourceMappingURL=Tasks.module.css.map */
