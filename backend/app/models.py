@@ -13,7 +13,7 @@ class UserBase(SQLModel):
     balance: int = Field(default=0)
     premium: bool = Field(default=False)
     admin: bool | None = Field(default=False)
-    from_user_id: uuid.UUID | None = Field(default=None, nullable=True)
+    from_user_telegram_id: int | None = Field(sa_column=Column(BigInteger, default=None, nullable=True))
     
 class UserCreate(UserBase):
     pass
