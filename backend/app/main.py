@@ -15,5 +15,15 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
 )
 
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[str(origin).rstrip("/") for origin in BACKEND_CORS_ORIGINS] + [
+            FRONTEND_HOST
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
 
 app.include_router(api_router, prefix=API_V1_STR)
