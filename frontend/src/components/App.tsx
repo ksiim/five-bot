@@ -16,8 +16,6 @@ function App() {
     telegram_id: 0,
     balance: 0,
     premium: false,
-    from_user_id: null,
-    admin: false
   });
   
   const [loading, setLoading] = useState(true);
@@ -28,10 +26,10 @@ function App() {
       try {
         setLoading(true);
         // Получаем referralUserId из URL если есть
-        const urlParams = new URLSearchParams(window.location.search);
-        const referralUserId = urlParams.get('ref');
+        //const urlParams = new URLSearchParams(window.location.search);
+        //const referralUserId = urlParams.get('ref') || null;
         
-        const userData = await registerUser(referralUserId);
+        const userData = await registerUser();
         setUser(userData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Произошла ошибка при инициализации');
