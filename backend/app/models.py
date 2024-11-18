@@ -12,8 +12,8 @@ class UserBase(SQLModel):
     telegram_id: int = Field(sa_column=Column(BigInteger, unique=True, index=True))
     balance: int = Field(default=0)
     premium: bool = Field(default=False)
-    from_user_id: uuid.UUID | None = Field(default=None, nullable=True)
     admin: bool | None = Field(default=False)
+    from_user_id: uuid.UUID | None = Field(default=None, nullable=True)
     
 class UserCreate(UserBase):
     pass
