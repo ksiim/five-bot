@@ -155,7 +155,7 @@ async def get_referral_link_with_description_by_telegram_id(
 
 
 @router.post(
-    '/give-five'
+    '/give-five/{telegram_id}',
 )
 async def give_five(
     telegram_id: int,
