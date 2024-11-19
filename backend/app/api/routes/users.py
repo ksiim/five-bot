@@ -171,8 +171,8 @@ async def give_five(
     
     give_five_value = await crud_setting.get_setting_by_name(session, "give_five_value")
     
-    if user.from_user_id:
-        from_user = await crud_user.get_user_by_id(session, user.from_user_id)
+    if user.from_user_telegram_id:
+        from_user = await crud_user.get_user_by_telegram_id(session, user.from_user_telegram_id)
         if not from_user:
             raise HTTPException(status_code=404, detail="From user not found")
         
