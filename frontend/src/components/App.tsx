@@ -1,5 +1,3 @@
-// App.tsx
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FiveBot from '../pages/Clicker/FiveBot';
@@ -7,8 +5,8 @@ import Friends from '../pages/Friends/Friends';
 import Airdrop from '../pages/Airdrop/Airdrop';
 import Rating from '../pages/Rating/Rating';
 import Tasks from '../pages/Tasks/Tasks';
-import { registerUser} from '../services/userService';
-import {IUser} from '../interfaces/User.ts';
+import { initializeUser } from '../services/userService';
+import { IUser } from '../interfaces/User.ts';
 
 function App() {
   const [user, setUser] = useState<IUser>({
@@ -25,11 +23,7 @@ function App() {
     const initUser = async () => {
       try {
         setLoading(true);
-        // Получаем referralUserId из URL если есть
-        //const urlParams = new URLSearchParams(window.location.search);
-        //const referralUserId = urlParams.get('ref') || null;
-        
-        const userData = await registerUser();
+        const userData = await initializeUser();
         setUser(userData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Произошла ошибка при инициализации');
