@@ -42,7 +42,7 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=http://localhost:8000
+        - VITE_API_URL=https://lx6v2rq8-8000.euw.devtunnels.ms/
         - NODE_ENV=development
 
   bot:
