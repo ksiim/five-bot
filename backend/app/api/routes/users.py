@@ -208,3 +208,16 @@ async def get_user_rate(
     rate = count.scalar()
     
     return rate + 1
+
+@router.delete(
+    '/{telegram_id}',
+)
+async def delete_user(
+    telegram_id: int,
+    session: SessionDep,
+):
+    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    await crud_user.delete_user(session=session, user=user)
+    return 'User deleted'
