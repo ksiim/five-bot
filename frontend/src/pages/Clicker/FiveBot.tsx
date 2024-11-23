@@ -32,7 +32,7 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
       }
       
       const lastFiveTime = new Date(lastTimestamp).getTime();
-      const now = Date.now();
+      const now = new Date().getTime();
       const cooldownPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
       const timeDiff = now - lastFiveTime;
       
@@ -91,33 +91,36 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
       
       setIsLoading(true);
       
-      // Modify the request to pass telegram_id as a query parameter
-      const giveFiveResponse = await request(`users/give-five/${data.telegram_id}`, 'POST', null);
+      // Запрос для дачи "пять"
+      await request(`users/give-five/${data.telegram_id}`, 'POST', null);
       
-      console.log('Give five response:', giveFiveResponse);
-      
-      // Fetch updated balance
-      const balanceData = await request(
+      // Получение нового баланса
+      const newBalance = await request(
         `users/balance/${data.telegram_id}`,
         'GET',
         null
       );
       
-      console.log('New balance:', balanceData);
+      console.log('New balance:', newBalance);
       
-      // Update user balance
-      setUser(prev => ({
-        ...prev,
-        balance: balanceData.balance
-      }));
+      // Убедимся, что получен валидный баланс и обновляем состояние
+      if (typeof newBalance === 'number') {
+        setUser((prev: any) => ({
+          ...prev,
+          balance: newBalance, // Обновляем баланс в состоянии
+        }));
+      } else {
+        console.error('Invalid balance received:', newBalance);
+        TG.showAlert('Ошибка при обновлении баланса. Попробуйте позже.');
+      }
       
-      // Reset state
+      // Сброс состояния
       setCanGiveFive(false);
       
-      // Show success message
+      // Показ сообщения об успешном действии
       TG.showAlert('Вы успешно дали пять!');
       
-      // Restart timestamp check
+      // Перезапуск проверки времени
       await checkLastFiveTimestamp();
     } catch (error) {
       console.error('Error giving five:', error);
@@ -126,6 +129,7 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
       setIsLoading(false);
     }
   };
+  
   
   const handleAirdrop = () => navigate('/airdrop');
   const handleFriends = () => navigate('/friends');

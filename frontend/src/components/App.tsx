@@ -5,8 +5,9 @@ import Friends from '../pages/Friends/Friends';
 import Airdrop from '../pages/Airdrop/Airdrop';
 import Rating from '../pages/Rating/Rating';
 import Tasks from '../pages/Tasks/Tasks';
-import { initializeUser } from '../services/userService';
+import {getUserByTelegramId} from '../services/userService';
 import { IUser } from '../interfaces/User.ts';
+import {TG} from '../api/request.ts';
 
 function App() {
   const [user, setUser] = useState<IUser>({
@@ -23,7 +24,7 @@ function App() {
     const initUser = async () => {
       try {
         setLoading(true);
-        const userData = await initializeUser();
+        const userData = await getUserByTelegramId(TG.initDataUnsafe.user.id);
         setUser(userData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Произошла ошибка при инициализации');
