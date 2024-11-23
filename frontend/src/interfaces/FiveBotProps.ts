@@ -1,6 +1,7 @@
 import {IUser} from './User.ts'
+import React from 'react';
 
 export interface FiveBotProps {
   data: IUser;
-  setUser: (user: IUser) => void;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
 }
