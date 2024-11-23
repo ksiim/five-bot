@@ -9,29 +9,27 @@ async function request(endpoint: string, method: string, body: any): Promise<any
       method: method,
       headers: {
         'Content-Type': 'application/json',
+        // Добавьте заголовок, если требуется авторизация
+        'Authorization': `Bearer ${TG.initData || ''}`,
       },
-      mode: "cors",
-      body: method !== 'GET' ? JSON.stringify(body) : null, // Тело для методов POST/PUT
+      mode: "cors", // Убедитесь, что сервер поддерживает CORS
+      body: method !== 'GET' ? JSON.stringify(body) : null, // Тело только для методов POST/PUT
     });
-
+    
     console.log(response);
     
-    // Обработка ответа
     if (!response.ok) {
-      const errorText = await response.text(); // Считываем текст ошибки
+      const errorText = await response.text();
       throw new Error(`Ошибка запроса: ${response.status} - ${errorText}`);
     }
     
-    // Пытаемся разобрать JSON-ответ
-    try {
-      return await response.json();
-    } catch (jsonError) {
-      throw new Error('Ошибка при обработке JSON-ответа: ' + jsonError);
-    }
+    // Обработка успешного JSON-ответа
+    return await response.json();
   } catch (error) {
     console.error(`Ошибка API запроса (${endpoint}):`, error);
     throw error;
   }
 }
+
 
 export { TG, request };

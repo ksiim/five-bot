@@ -22,12 +22,18 @@ cors = [str(origin) for origin in BACKEND_CORS_ORIGINS] + [
 print(cors)
 
 app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    CORSMiddleware,
+    allow_origins=[
+        "https://lx6v2rq8-5173.euw.devtunnels.ms",
+        "https://lx6v2rq8.euw.devtunnels.ms:5173",
+        "https://lx6v2rq8.euw.devtunnels.ms:8000",
+        "https://lx6v2rq8-8000.euw.devtunnels.ms",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 app.include_router(api_router, prefix=API_V1_STR)
