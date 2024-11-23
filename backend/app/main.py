@@ -20,22 +20,6 @@ app = FastAPI(
 
 app = FastAPI()
 
-@app.get("/api/v1/docs", include_in_schema=False)
-async def custom_swagger_ui_html():
-    return get_swagger_ui_html(
-        openapi_url=app.openapi_url,
-        title=app.title + " - Swagger UI",
-    )
-
-@app.get("/api/v1/openapi.json", include_in_schema=False)
-async def get_openapi_json():
-    return get_openapi(
-        title=app.title,
-        version=app.version,
-        description=app.description,
-        routes=app.routes,
-    )
-
 cors = [str(origin) for origin in BACKEND_CORS_ORIGINS] + [
             FRONTEND_HOST
         ]
@@ -44,12 +28,7 @@ print(cors)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://lx6v2rq8-5173.euw.devtunnels.ms",
-        "https://lx6v2rq8.euw.devtunnels.ms:5173",
-        "https://lx6v2rq8.euw.devtunnels.ms:8000",
-        "https://lx6v2rq8-8000.euw.devtunnels.ms",
-    ],
+    allow_origins=cors,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
