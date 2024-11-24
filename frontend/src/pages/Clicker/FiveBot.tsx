@@ -25,20 +25,15 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
         null
       );
       
-      console.log('Received lastTimestamp:', lastTimestamp);
-      console.log('Parsed date:', new Date(lastTimestamp));
-      console.log('UTC date:', new Date(lastTimestamp).toUTCString());
-      console.log('Local date:', new Date(lastTimestamp).toString());
-      
-      
       if (!lastTimestamp) {
         setCanGiveFive(true);
         setTimeLeft('Можно дать пять!');
         return;
       }
       
-      const lastFiveTime = new Date(lastTimestamp).getTime();
-      const now = Date.now(); // получаем текущее UTC время в миллисекундах
+      const utcTimestamp = lastTimestamp.endsWith('Z') ? lastTimestamp : lastTimestamp + 'Z';
+      const lastFiveTime = new Date(utcTimestamp).getTime();
+      const now = Date.now();
       const cooldownPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
       const timeDiff = now - lastFiveTime;
       
