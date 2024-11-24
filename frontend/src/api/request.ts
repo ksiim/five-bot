@@ -1,4 +1,4 @@
-const DEFAULT_URL = 'https://lx6v2rq8.euw.devtunnels.ms:8000/api/v1/';
+const DEFAULT_URL = 'https://five-bot.com/api/v1/';
 //@ts-ignore
 const TG = window.Telegram.WebApp;
 TG.expand();
