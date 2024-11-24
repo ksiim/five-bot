@@ -9,6 +9,7 @@ import Tasks from '../pages/Tasks/Tasks';
 import {getUserByTelegramId} from '../services/userService';
 import { IUser } from '../interfaces/User.ts';
 import {TG} from '../api/request.ts';
+import './polyfills';
 
 function App() {
   const [user, setUser] = useState<IUser>({
