@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
-import { Address } from "@ton/core";
+//import { Address } from "@ton/core";
 import styles from './Airdrop.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
@@ -63,9 +63,9 @@ const Airdrop: React.FC = () => {
     }
   };
   
+  // Простая функция форматирования адреса без использования Buffer
   const formatAddress = (address: string) => {
-    const tempAddress = Address.parse(address).toString();
-    return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
+    return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
   };
   
   const handleAirdrop = () => {
