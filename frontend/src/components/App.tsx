@@ -47,7 +47,7 @@ function App() {
   }
   
   return (
-    <TonConnectUIProvider>
+    <TonConnectUIProvider manifestUrl="../api/connect-ton-wallet-data/manifest-example.json">
       <Router>
         <Routes>
           <Route path="/" element={<FiveBot data={user} setUser={setUser} />} />
