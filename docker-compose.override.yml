@@ -42,7 +42,7 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=https://lx6v2rq8-8000.euw.devtunnels.ms/
+        - VITE_API_URL=https://five-bot.com/api/v1/
         - NODE_ENV=development
 
   bot:
