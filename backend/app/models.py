@@ -31,13 +31,35 @@ class UsersPublic(SQLModel):
     data: list[User]
     count: int
 
-class Airdrop(SQLModel, table=True):
-    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+class AirdropBase(SQLModel):
     user_id: uuid.UUID = Field(foreign_key="user.id")
     wallet_connected: bool = Field(default=False)
     wallet_address: str | None = Field(default=None, nullable=True)
-    transactions_done: bool = Field(default=False)
+    transaction_done: bool = Field(default=False)
     reward: int
+    
+class AirdropCreate(AirdropBase):
+    pass
+
+class Airdrop(AirdropBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    updated_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    
+class AirdropPublic(AirdropBase):
+    id: uuid.UUID
+    
+class AirdropsPublic(SQLModel):
+    data: list[Airdrop]
+    count: int
+
+class AirdropUpdate(AirdropBase):
+    user_id: uuid.UUID | None = None
+    wallet_connected: bool | None = None
+    wallet_address: str | None = None
+    transaction_done: bool | None = None
+    reward: int | None = None
+
     
 class TaskTypeBase(SQLModel):
     task_name: str
