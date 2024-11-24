@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import FiveBot from '../pages/Clicker/FiveBot';
 import Friends from '../pages/Friends/Friends';
 import Airdrop from '../pages/Airdrop/Airdrop';
@@ -46,15 +47,17 @@ function App() {
   }
   
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<FiveBot data={user} setUser={setUser} />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/airdrop" element={<Airdrop />} />
-        <Route path="/rating" element={<Rating />} />
-        <Route path="/tasks" element={<Tasks />} />
-      </Routes>
-    </Router>
+    <TonConnectUIProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<FiveBot data={user} setUser={setUser} />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/airdrop" element={<Airdrop />} />
+          <Route path="/rating" element={<Rating />} />
+          <Route path="/tasks" element={<Tasks />} />
+        </Routes>
+      </Router>
+    </TonConnectUIProvider>
   );
 }
 
