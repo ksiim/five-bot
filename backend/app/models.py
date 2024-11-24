@@ -35,6 +35,7 @@ class Airdrop(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="user.id")
     wallet_connected: bool = Field(default=False)
+    wallet_address: str | None = Field(default=None, nullable=True)
     transactions_done: bool = Field(default=False)
     reward: int
     
