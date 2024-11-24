@@ -9,4 +9,8 @@ export default defineConfig({
       buffer: 'buffer/',
     },
   },
+  define: {
+    global: {},
+    'process.env': {},
+  },
 })
