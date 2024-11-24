@@ -4,6 +4,7 @@ const TG = window.Telegram.WebApp;
 TG.expand();
 
 async function request(endpoint: string, method: string, body: any): Promise<any> {
+  console.log(DEFAULT_URL)
   try {
     const response = await fetch(`${DEFAULT_URL}${endpoint}`, {
       method: method,
