@@ -8,4 +8,4 @@ router = APIRouter()
 @router.get("/")
 async def get_manifest_json_file():
     print(os.getcwd())
-    return FileResponse('app/app/api/manifest-example.json')
+    return FileResponse('app/api/manifest-example.json')
