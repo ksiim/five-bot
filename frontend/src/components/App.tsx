@@ -10,6 +10,7 @@ import {getUserByTelegramId} from '../services/userService';
 import { IUser } from '../interfaces/User.ts';
 import {TG} from '../api/request.ts';
 TG.expand();
+TG.disableVerticalSwipes();
 
 function App() {
   const [user, setUser] = useState<IUser>({
