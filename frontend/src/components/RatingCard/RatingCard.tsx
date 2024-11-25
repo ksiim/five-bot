@@ -3,16 +3,24 @@ import styles from './RatingCard.module.scss';
 
 interface RatingCardProps {
   isCurrentUser?: boolean;
+  username: string | null;
+  balance: number;
+  place?: number;
 }
 
-const RatingCard: React.FC<RatingCardProps> = ({ isCurrentUser = false }) => {
+const RatingCard: React.FC<RatingCardProps> = ({
+                                                 isCurrentUser = false,
+                                                 username,
+                                                 balance,
+                                                 place
+                                               }) => {
   return (
     <div className={`${styles.card} ${isCurrentUser ? styles.currentUser : ''}`}>
       <div className={styles.info}>
-        <p className={styles.name}>{isCurrentUser ? 'Вы' : 'User'}</p>
-        <p className={styles.balance}>5252</p>
+        <p className={styles.name}>{isCurrentUser ? 'Вы' : username}</p>
+        <p className={styles.balance}>{balance}</p>
       </div>
-      <p className={styles.place}>{'>300'}</p>
+      <p className={styles.place}>{place || '>300'}</p>
     </div>
   );
 };
