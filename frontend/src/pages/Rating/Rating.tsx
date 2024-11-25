@@ -1,4 +1,3 @@
-// Rating.tsx
 import React, { useEffect, useState } from 'react';
 import styles from './Rating.module.scss';
 import airdrop from '../../assets/images/airdrop.svg';
@@ -12,7 +11,7 @@ import { request, TG } from '../../api/request';
 import { IUser } from '../../interfaces/User';
 
 interface UserRating extends IUser {
-  place?: number;
+  place?: number | string;
 }
 
 interface ApiResponse {
@@ -26,6 +25,15 @@ const Rating: React.FC = () => {
   const [topUsers, setTopUsers] = useState<UserRating[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Функция для форматирования места
+  const formatPlace = (place: number): string => {
+    if (place <= 300) return place.toString();
+    // Определяем диапазон для мест больше 300
+    const start = Math.floor(place / 100) * 100;
+    const end = start + 100;
+    return `${start}-${end}`;
+  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -51,16 +59,21 @@ const Rating: React.FC = () => {
           (user: IUser) => user.telegram_id === TG.initDataUnsafe.user.id
         );
         
+        const actualPlace = userPlace.data?.place || userPlace.place;
+        
         if (currentUserData) {
           setCurrentUser({
             ...currentUserData,
-            place: userPlace.data?.place || userPlace.place || '>300'
+            place: formatPlace(actualPlace)
           });
         }
         
-        // Process users list
+        // Process users list and add (Вы) to current user's username
         const processedUsers = usersResponse.data.map((user: IUser, index: number) => ({
           ...user,
+          username: user.telegram_id === TG.initDataUnsafe.user.id
+            ? `${user.username || 'Пользователь'} (Вы)`
+            : user.username || 'Пользователь',
           place: index + 1
         }));
         
@@ -100,7 +113,7 @@ const Rating: React.FC = () => {
             <div className={styles.fixedUserCard}>
               <RatingCard
                 isCurrentUser={true}
-                username={currentUser.username || 'Пользователь'}
+                username={`${currentUser.username || 'Пользователь'} (Вы)`}
                 balance={currentUser.balance}
                 place={currentUser.place}
               />
@@ -111,7 +124,7 @@ const Rating: React.FC = () => {
           {topUsers.map((user) => (
             <RatingCard
               key={user.telegram_id}
-              username={user.username || 'Пользователь'}
+              username={user.username}
               balance={user.balance}
               place={user.place}
             />

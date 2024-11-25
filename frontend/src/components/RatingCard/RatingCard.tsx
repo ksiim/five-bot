@@ -5,7 +5,7 @@ interface RatingCardProps {
   isCurrentUser?: boolean;
   username: string | null;
   balance: number;
-  place?: number;
+  place?: number | string;
 }
 
 const RatingCard: React.FC<RatingCardProps> = ({
