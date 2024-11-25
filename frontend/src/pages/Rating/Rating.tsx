@@ -26,14 +26,6 @@ const Rating: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Функция для форматирования места
-  const formatPlace = (place: number): string => {
-    if (place <= 300) return place.toString();
-    // Определяем диапазон для мест больше 300
-    const start = Math.floor(place / 100) * 100;
-    const end = start + 100;
-    return `${start}-${end}`;
-  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +56,7 @@ const Rating: React.FC = () => {
         if (currentUserData) {
           setCurrentUser({
             ...currentUserData,
-            place: formatPlace(actualPlace)
+            place: actualPlace
           });
         }
         
