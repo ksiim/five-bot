@@ -1,7 +1,6 @@
 const DEFAULT_URL = 'https://five-bot.com/api/v1/';
 //@ts-ignore
 const TG = window.Telegram.WebApp;
-TG.expand();
 
 async function request(endpoint: string, method: string, body: any): Promise<any> {
   console.log(DEFAULT_URL)
