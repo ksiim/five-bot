@@ -1,3 +1,4 @@
+// Rating.tsx
 import React, { useEffect, useState } from 'react';
 import styles from './Rating.module.scss';
 import airdrop from '../../assets/images/airdrop.svg';
@@ -14,6 +15,11 @@ interface UserRating extends IUser {
   place?: number;
 }
 
+interface ApiResponse {
+  data: IUser[];
+  count: number;
+}
+
 const Rating: React.FC = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<UserRating | null>(null);
@@ -26,29 +32,39 @@ const Rating: React.FC = () => {
       try {
         setLoading(true);
         
-        // Fetch top 50 users
-        const usersResponse = await request('users/', 'GET', {
-          limit: 50,
-          sort_by: 'balance',
-          sort_order: 'desc'
-        });
+        // Fetch top 50 users with query parameters in URL
+        const usersResponse = await request(
+          'users/?limit=50&sort_by=balance&sort_order=desc',
+          'GET',
+          null
+        ) as ApiResponse;
         
         // Get current user's rating
-        const userPlace = await request(`users/user/rate/${TG.initDataUnsafe.user.id}`, 'GET', null);
+        const userPlace = await request(
+          `users/user/rate/${TG.initDataUnsafe.user.id}`,
+          'GET',
+          null
+        );
         
-        // Find current user in the response or make a separate request if needed
-        const currentUserData = usersResponse.find(
+        // Find current user in the response
+        const currentUserData = usersResponse.data.find(
           (user: IUser) => user.telegram_id === TG.initDataUnsafe.user.id
         );
         
         if (currentUserData) {
-          setCurrentUser({ ...currentUserData, place: userPlace });
+          setCurrentUser({
+            ...currentUserData,
+            place: userPlace.data?.place || userPlace.place || '>300'
+          });
         }
         
-        setTopUsers(usersResponse.map((user: IUser, index: number) => ({
+        // Process users list
+        const processedUsers = usersResponse.data.map((user: IUser, index: number) => ({
           ...user,
           place: index + 1
-        })));
+        }));
+        
+        setTopUsers(processedUsers);
         
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных');
@@ -84,7 +100,7 @@ const Rating: React.FC = () => {
             <div className={styles.fixedUserCard}>
               <RatingCard
                 isCurrentUser={true}
-                username={currentUser.username}
+                username={currentUser.username || 'Пользователь'}
                 balance={currentUser.balance}
                 place={currentUser.place}
               />
@@ -92,12 +108,12 @@ const Rating: React.FC = () => {
           )}
         </div>
         <div className={styles.scrollableList}>
-          {topUsers.map((user, index) => (
+          {topUsers.map((user) => (
             <RatingCard
               key={user.telegram_id}
-              username={user.username}
+              username={user.username || 'Пользователь'}
               balance={user.balance}
-              place={index + 1}
+              place={user.place}
             />
           ))}
         </div>
