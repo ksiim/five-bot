@@ -27,6 +27,7 @@ async function getUserByTelegramId(telegramId: number): Promise<any> {
 function getStartAppParam(): string | null {
   const initData = TG.initData; // Это строка с параметрами, переданными Telegram
   const params = new URLSearchParams(initData);
+  console.log(`Params: ${params}`)
   return params.get('startapp'); // Извлекаем значение startapp
 }
 
@@ -43,6 +44,7 @@ async function registerUser(): Promise<UserData | null> {
     
     // Извлечение ID пригласившего пользователя
     const referrerParam = getStartAppParam();
+    console.log(`referrerParam = ${referrerParam}`)
     const referrerId = referrerParam && referrerParam.startsWith('ref')
       ? referrerParam.replace('ref', '')
       : null;
