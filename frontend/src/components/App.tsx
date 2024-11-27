@@ -12,6 +12,12 @@ import {TG} from '../api/request.ts';
 TG.expand();
 TG.disableVerticalSwipes();
 
+TG.CloudStorage.getItem('external_links_enabled', (error : any, value : any) => {
+  if (!error && value !== 'true') {
+    TG.CloudStorage.setItem('external_links_enabled', 'true');
+  }
+});
+
 function App() {
   const [user, setUser] = useState<IUser>({
     username: "guest",

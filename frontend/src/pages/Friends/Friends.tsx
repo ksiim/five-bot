@@ -48,11 +48,17 @@ const Friends:React.FC = () => {
       // Делаем запрос
       const response = await request(endpoint, 'GET', null);
       
-      // Открываем полученную ссылку
-      TG.openTelegramLink(response);
+      // Проверяем, что ответ содержит ссылку
+      if (typeof response === 'string' && response.startsWith('https://t.me/')) {
+        // Используем метод Telegram WebApp для открытия ссылки в Telegram
+        TG.openTelegramLink(response);
+      } else {
+        console.error('Некорректный формат ответа:', response);
+        TG.showAlert('Не удалось получить реферальную ссылку');
+      }
     } catch (error) {
       console.error('Ошибка при генерации реферальной ссылки:', error);
-      alert('Не удалось сгенерировать реферальную ссылку');
+      TG.showAlert('Не удалось сгенерировать реферальную ссылку');
     }
   }
   
