@@ -51,7 +51,7 @@ const Friends:React.FC = () => {
       // Проверяем и устанавливаем ссылку
       if (response && response.link) {
         // Открываем реферальную ссылку в новой вкладке
-        window.open(response.link, '_blank');
+        TG.openTelegramLink(response.link);
       }
     } catch (error) {
       console.error('Ошибка при генерации реферальной ссылки:', error);
