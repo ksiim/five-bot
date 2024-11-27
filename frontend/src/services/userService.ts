@@ -24,6 +24,12 @@ async function getUserByTelegramId(telegramId: number): Promise<any> {
   }
 }
 
+function getQueryParameter(name: string): string | null {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name); // Возвращает null, если параметр отсутствует
+}
+
+
 
 async function registerUser(): Promise<UserData | null> {
   try {
@@ -35,10 +41,9 @@ async function registerUser(): Promise<UserData | null> {
       throw new Error('Не удалось получить данные пользователя из Telegram');
     }
     
-    // Извлечение ID пригласившего из параметров URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const referrerParam = urlParams.get('startapp');
-    const fromUserTelegramId = referrerParam
+    // Извлечение ID пригласившего пользователя из URL
+    const referrerParam = getQueryParameter('startapp');
+    const referrerId = referrerParam && referrerParam.startsWith('ref')
       ? referrerParam.replace('ref', '')
       : null;
     
@@ -47,7 +52,7 @@ async function registerUser(): Promise<UserData | null> {
       telegram_id: userData.id,
       balance: 0,
       premium: Boolean(userData.is_premium) || false,
-      from_user_telegram_id: fromUserTelegramId, // Добавляем ID пригласившего
+      from_user_telegram_id: referrerId, // Может быть null
     };
     
     console.log('Данные для регистрации:', registrationData);
@@ -60,5 +65,6 @@ async function registerUser(): Promise<UserData | null> {
     throw error;
   }
 }
+
 
 export {getUserByTelegramId, registerUser };
