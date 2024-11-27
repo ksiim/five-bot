@@ -49,7 +49,7 @@ const Friends:React.FC = () => {
       const response = await request(endpoint, 'GET', null);
       
       // Открываем полученную ссылку
-      TG.openLink(response);
+      TG.openTelegramLink(response);
     } catch (error) {
       console.error('Ошибка при генерации реферальной ссылки:', error);
       alert('Не удалось сгенерировать реферальную ссылку');
