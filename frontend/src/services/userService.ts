@@ -24,11 +24,11 @@ async function getUserByTelegramId(telegramId: number): Promise<any> {
   }
 }
 
-function getQueryParameter(name: string): string | null {
-  const params = new URLSearchParams(window.location.search);
-  return params.get(name); // Возвращает null, если параметр отсутствует
+function getStartAppParam(): string | null {
+  const initData = TG.initData; // Это строка с параметрами, переданными Telegram
+  const params = new URLSearchParams(initData);
+  return params.get('startapp'); // Извлекаем значение startapp
 }
-
 
 
 async function registerUser(): Promise<UserData | null> {
@@ -41,8 +41,8 @@ async function registerUser(): Promise<UserData | null> {
       throw new Error('Не удалось получить данные пользователя из Telegram');
     }
     
-    // Извлечение ID пригласившего пользователя из URL
-    const referrerParam = getQueryParameter('startapp');
+    // Извлечение ID пригласившего пользователя
+    const referrerParam = getStartAppParam();
     const referrerId = referrerParam && referrerParam.startsWith('ref')
       ? referrerParam.replace('ref', '')
       : null;
@@ -65,6 +65,7 @@ async function registerUser(): Promise<UserData | null> {
     throw error;
   }
 }
+
 
 
 export {getUserByTelegramId, registerUser };
