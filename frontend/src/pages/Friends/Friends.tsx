@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Friends.module.scss'
 import Button from '../../components/Button/Button.tsx';
 import linkIcon from '../../assets/images/link.svg';
