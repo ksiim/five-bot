@@ -8,7 +8,7 @@ import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import {useNavigate} from 'react-router-dom';
-import { TG, request } from './path/to/your/request/file'; // Укажите правильный путь
+import { TG, request } from '../../api/request.ts' // Укажите правильный путь
 
 const Friends:React.FC = () => {
   const navigate = useNavigate()
