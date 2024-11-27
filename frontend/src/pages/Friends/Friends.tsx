@@ -8,7 +8,7 @@ import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import {useNavigate} from 'react-router-dom';
-import { TG, request } from '../../api/request.ts'; // Укажите правильный путь
+import { TG, request } from './path/to/your/request/file'; // Укажите правильный путь
 
 const Friends:React.FC = () => {
   const navigate = useNavigate()
@@ -48,11 +48,8 @@ const Friends:React.FC = () => {
       // Делаем запрос
       const response = await request(endpoint, 'GET', null);
       
-      // Проверяем и устанавливаем ссылку
-      if (response && response.link) {
-        // Открываем реферальную ссылку в новой вкладке
-        TG.openTelegramLink(response.link);
-      }
+      // Открываем полученную ссылку
+      TG.openLink(response);
     } catch (error) {
       console.error('Ошибка при генерации реферальной ссылки:', error);
       alert('Не удалось сгенерировать реферальную ссылку');
