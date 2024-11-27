@@ -48,10 +48,15 @@ const Friends:React.FC = () => {
       // Делаем запрос
       const response = await request(endpoint, 'GET', null);
       
-      // Проверяем, что ответ содержит ссылку
-      if (typeof response === 'string' && response.startsWith('https://t.me/')) {
+      // Проверяем, что ответ содержит ссылку и добавляем https:// если нужно
+      const formattedLink = response.startsWith('https://')
+        ? response
+        : `https://${response}`;
+      
+      // Проверяем, что ссылка корректная
+      if (typeof formattedLink === 'string' && formattedLink.startsWith('https://')) {
         // Используем метод Telegram WebApp для открытия ссылки в Telegram
-        TG.openTelegramLink(response);
+        TG.openTelegramLink(formattedLink);
       } else {
         console.error('Некорректный формат ответа:', response);
         TG.showAlert('Не удалось получить реферальную ссылку');
