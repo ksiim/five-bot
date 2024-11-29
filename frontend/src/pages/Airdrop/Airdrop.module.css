@@ -46,6 +46,7 @@ body {
   align-items: start;
   padding: 22vw 4.2vw 0;
   width: 100%;
+  height: calc(100vh - 20vw);
 }
 
 .content {
