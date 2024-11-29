@@ -18,6 +18,7 @@ from app.models import (
     TasksPublic,
     UserTask,
 )
+from app.core import config
 
 router = APIRouter()
 
@@ -121,12 +122,22 @@ async def read_tasks_for_telegram_id(
 
     return TasksPublic(data=uncompleted_tasks, count=len(uncompleted_tasks))
 
-async def is_in_channel(channel, telegram_id):
+async def is_in_channel_func(channel_id, telegram_id):
+    bot_token = config.BOT_TOKEN
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            f"https://api.telegram.org/bot{settings.BOT_TOKEN}/getChatMember?chat_id={channel}&user_id={telegram_id}"
+            f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
         ) as response:
             data = await response.json()
             print(data)
+            
+@router.get(
+    '/is_in_channel/{channel_id}&{telegram_id}',
+)
+async def is_in_channel(
+    channel_id: str,
+    telegram_id: int,
+):
+    return await is_in_channel_func(channel_id, telegram_id)
     
     
