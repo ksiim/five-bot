@@ -53,6 +53,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
+  background: inherit;
 }
 .content h1 {
   font-size: 30px;
