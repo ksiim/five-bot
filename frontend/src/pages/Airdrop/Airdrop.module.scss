@@ -151,15 +151,18 @@ body {
 }
 
 .loading {
+  position: fixed; /* Фиксируем относительно окна браузера */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Занимаем все пространство */
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Используем всю ширину экрана */
-  height: calc(100vh - 20vw); /* Учитываем нижнюю панель навигации */
-  font-size: 1.5rem;
+  background: inherit; /* Наследуем фон */
+  z-index: 1000; /* Поверх всех элементов */
   color: white;
-  background: inherit; /* Наследуем общий фон */
-  text-align: center;
+  font-size: 1.5rem;
 }
 
 
