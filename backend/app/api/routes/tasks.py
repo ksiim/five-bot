@@ -129,7 +129,7 @@ async def is_in_channel_func(channel_id, telegram_id):
             f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
         ) as response:
             data = await response.json()
-            print(data)
+            return data.get("result", {}).get("status") != "left"
             
 @router.get(
     '/is_in_channel/{channel_id}&{telegram_id}',
