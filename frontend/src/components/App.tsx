@@ -9,6 +9,14 @@ import Tasks from '../pages/Tasks/Tasks';
 import {getUserByTelegramId} from '../services/userService';
 import { IUser } from '../interfaces/User.ts';
 import {TG} from '../api/request.ts';
+TG.expand();
+TG.disableVerticalSwipes();
+
+TG.CloudStorage.getItem('external_links_enabled', (error : any, value : any) => {
+  if (!error && value !== 'true') {
+    TG.CloudStorage.setItem('external_links_enabled', 'true');
+  }
+});
 
 function App() {
   const [user, setUser] = useState<IUser>({
@@ -47,7 +55,7 @@ function App() {
   }
   
   return (
-    <TonConnectUIProvider manifestUrl="../api/connect-ton-wallet-data/manifest-example.json">
+    <TonConnectUIProvider manifestUrl="https://five-bot.com/manifest.json">
       <Router>
         <Routes>
           <Route path="/" element={<FiveBot data={user} setUser={setUser} />} />

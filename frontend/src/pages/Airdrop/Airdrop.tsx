@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useTonConnectUI } from '@tonconnect/ui-react';
-//import { Address } from "@ton/core";
+import { useTonConnectUI, SendTransactionRequest } from '@tonconnect/ui-react';
 import styles from './Airdrop.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
@@ -63,30 +62,39 @@ const Airdrop: React.FC = () => {
     }
   };
   
-  // Простая функция форматирования адреса без использования Buffer
+  const handleTransaction = async () => {
+    if (!tonWalletAddress) return;
+    
+    
+    
+    try {
+      const transaction: SendTransactionRequest = {
+        validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
+        messages: [
+          {
+            // Replace with the actual wallet address and amount you want to use
+            address: "UQBKCoqHQaZLBkLp--tUgT4u6Iiw-7BwgdqwHV2P3dOi0Dq3",
+            amount: "200", // Toncoin in nanotons
+          },
+        ],
+      };
+      
+      await tonConnectUI.sendTransaction(transaction);
+      console.log("Transaction sent successfully!");
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+  };
+  
   const formatAddress = (address: string) => {
     return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
   };
   
-  const handleAirdrop = () => {
-    navigate('/airdrop');
-  };
-  
-  const handleFriends = () => {
-    navigate('/friends');
-  };
-  
-  const handleClicker = () => {
-    navigate('/');
-  };
-  
-  const handleTasks = () => {
-    navigate('/tasks');
-  };
-  
-  const handleRating = () => {
-    navigate('/rating');
-  };
+  const handleAirdrop = () => { navigate('/airdrop'); };
+  const handleFriends = () => { navigate('/friends'); };
+  const handleClicker = () => { navigate('/'); };
+  const handleTasks = () => { navigate('/tasks'); };
+  const handleRating = () => { navigate('/rating'); };
   
   if (isLoading) {
     return (
@@ -118,7 +126,15 @@ const Airdrop: React.FC = () => {
                 onClick={handleWalletAction}
               />
             )}
-            <Button text="2. Совершите TON транзакцию" icon={tonIcon}/>
+            
+            {tonWalletAddress && (
+              <Button
+                text="2. Совершите TON транзакцию"
+                icon={tonIcon}
+                onClick={handleTransaction}
+              />
+            )}
+            
             <div className={styles.paragraphs}>
               <p>Airdrop - это распределение токенов на кошельки игроков. Вскоре
                 токены будут торговаться на ведущих биржах, и вы сможете

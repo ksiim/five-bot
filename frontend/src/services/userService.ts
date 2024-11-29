@@ -24,6 +24,12 @@ async function getUserByTelegramId(telegramId: number): Promise<any> {
   }
 }
 
+function getStartParam(): string | null {
+  const params = new URLSearchParams(TG.initData); // TG.initData содержит строку с параметрами
+  return params.get('start_param'); // Извлекаем значение start_param
+}
+
+
 
 async function registerUser(): Promise<UserData | null> {
   try {
@@ -35,12 +41,18 @@ async function registerUser(): Promise<UserData | null> {
       throw new Error('Не удалось получить данные пользователя из Telegram');
     }
     
+    // Извлечение ID пригласившего пользователя
+    const referrerParam = getStartParam();
+    const referrerId = referrerParam && referrerParam.startsWith('ref')
+      ? referrerParam.replace('ref', '')
+      : null;
+    
     const registrationData: UserData = {
       username: userData.username || '',
       telegram_id: userData.id,
       balance: 0,
       premium: Boolean(userData.is_premium) || false,
-      from_user_telegram_id: null,
+      from_user_telegram_id: referrerId, // Может быть null
     };
     
     console.log('Данные для регистрации:', registrationData);
@@ -54,44 +66,7 @@ async function registerUser(): Promise<UserData | null> {
   }
 }
 
-// async function initializeUser(): Promise<any> {
-//   console.log('Инициализация пользователя через Telegram Web App');
-//
-//   const userData = TG.initDataUnsafe.user;
-//
-//   if (!userData) {
-//     console.error('Не удалось получить данные пользователя из Telegram');
-//     throw new Error('Не удалось получить данные пользователя из Telegram');
-//   }
-//
-//   try {
-//     console.log('Проверка существующего пользователя с ID:', userData.id);
-//     const existingUser = await getUserByTelegramId(userData.id);
-//
-//     if (existingUser) {
-//       console.log('Пользователь найден, вход в существующий аккаунт:', existingUser);
-//       return existingUser; // Возвращаем найденного пользователя
-//     }
-//   } catch (error: any) {
-//     if (error?.response?.status === 404) {
-//       console.log('Пользователь отсутствует (404), продолжаем регистрацию.');
-//     } else {
-//       console.error('Ошибка при поиске пользователя:', error);
-//       throw error; // Прерываем выполнение на других ошибках
-//     }
-//   }
-//
-//   // Если мы дошли до этой точки, регистрируем нового пользователя
-//   console.log('Регистрация нового пользователя началась...');
-//   try {
-//     const newUser = await registerUser();
-//     console.log('Регистрация завершена успешно:', newUser);
-//     return newUser;
-//   } catch (registrationError) {
-//     console.error('Ошибка при регистрации пользователя:', registrationError);
-//     throw registrationError; // Прерываем выполнение, если регистрация не удалась
-//   }
-// }
+
 
 
 export {getUserByTelegramId, registerUser };
