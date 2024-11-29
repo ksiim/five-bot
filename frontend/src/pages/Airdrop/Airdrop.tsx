@@ -54,13 +54,11 @@ const Airdrop: React.FC = () => {
   }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
   
   const handleWalletAction = async () => {
-    if (tonConnectUI.connected) {
-      setIsLoading(true);
-      await tonConnectUI.disconnect();
-    } else {
+    if (!tonConnectUI.connected) {
       await tonConnectUI.openModal();
     }
   };
+  
   
   const handleTransaction = async () => {
     if (!tonWalletAddress) return;
