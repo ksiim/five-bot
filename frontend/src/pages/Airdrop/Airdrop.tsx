@@ -4,7 +4,7 @@ import styles from './Airdrop.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
 import tonIcon from '../../assets/images/ton.svg';
-import airdrop from '../../assets/images/airdrop.svg';
+import airdrop from '../../assets/images/airdrop_active.svg';
 import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
