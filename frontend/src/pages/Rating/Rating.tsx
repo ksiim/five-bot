@@ -46,10 +46,6 @@ const Rating: React.FC = () => {
           null
         );
         
-        const actualPlace = userPlace.data?.place || userPlace.place;
-        
-        console.log(actualPlace);
-        
         // Find current user in the response
         const currentUserData = usersResponse.data.find(
           (user: IUser) => user.telegram_id === TG.initDataUnsafe.user.id
@@ -59,7 +55,7 @@ const Rating: React.FC = () => {
         if (currentUserData) {
           setCurrentUser({
             ...currentUserData,
-            place: actualPlace
+            place: userPlace
           });
         }
         
