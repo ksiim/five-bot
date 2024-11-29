@@ -10,6 +10,7 @@ import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader/Loader.tsx';
 
 const Airdrop: React.FC = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const Airdrop: React.FC = () => {
         <div className={styles.content}>
           <h1>Airdrop</h1>
           {isLoading ? (
-            <div className={styles.loading}>Загрузка...</div>
+            <Loader/>
           ) : (
             <>
               <h2>Задача для участия в Airdrop:</h2>
