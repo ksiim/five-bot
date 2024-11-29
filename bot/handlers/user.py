@@ -18,3 +18,9 @@ async def start(message: Message):
         text=await generate_greeting_message(message),
         reply_markup=web_app_inline_markup
     )
+    
+@dp.message()
+async def get_channel_id(message: Message):
+    await message.answer(
+        text=f"Channel ID: {message.forward_from_chat.id}"
+    )
