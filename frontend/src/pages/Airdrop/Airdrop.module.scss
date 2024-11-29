@@ -149,5 +149,18 @@ body {
   }
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* Используем всю ширину экрана */
+  height: calc(100vh - 20vw); /* Учитываем нижнюю панель навигации */
+  font-size: 1.5rem;
+  color: white;
+  background: inherit; /* Наследуем общий фон */
+  text-align: center;
+}
+
+
 
 
