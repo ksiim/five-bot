@@ -20,7 +20,9 @@ const RatingCard: React.FC<RatingCardProps> = ({
         <p className={styles.name}>{isCurrentUser ? 'Вы' : username}</p>
         <p className={styles.balance}>{balance}</p>
       </div>
-      <p className={styles.place}>{place || '>300'}</p>
+      <p className={styles.place}>
+        {place !== undefined && place !== null ? place : '>300'}
+      </p>
     </div>
   );
 };
