@@ -96,21 +96,15 @@ const Airdrop: React.FC = () => {
   const handleTasks = () => { navigate('/tasks'); };
   const handleRating = () => { navigate('/rating'); };
   
-  if (isLoading) {
-    return (
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          <div>Loading...</div>
-        </div>
-      </div>
-    );
-  }
-  
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.content}>
           <h1>Airdrop</h1>
+          {isLoading ? (
+            <div className={styles.loading}>Загрузка...</div>
+          ) : (
+            <>
           <h2>Задача для участия в Airdrop:</h2>
           <div className={styles.info}>
             {tonWalletAddress ? (
@@ -152,6 +146,8 @@ const Airdrop: React.FC = () => {
           <div className={styles.advice}>
             <p>Кошелек можно подключать только к одному аккаунту</p>
           </div>
+            </>
+          )}
         </div>
       </div>
       <div className={styles.bottomnav}>
