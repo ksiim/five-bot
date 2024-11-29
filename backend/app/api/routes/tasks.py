@@ -2,6 +2,7 @@ import datetime
 import uuid
 from typing import Any, Optional
 
+import aiohttp
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import col, delete, func, select
 
@@ -119,5 +120,13 @@ async def read_tasks_for_telegram_id(
     uncompleted_tasks = (await session.execute(uncompleted_tasks_statement)).scalars().all()
 
     return TasksPublic(data=uncompleted_tasks, count=len(uncompleted_tasks))
+
+async def is_in_channel(channel, telegram_id):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            f"https://api.telegram.org/bot{settings.BOT_TOKEN}/getChatMember?chat_id={channel}&user_id={telegram_id}"
+        ) as response:
+            data = await response.json()
+            print(data)
     
     
