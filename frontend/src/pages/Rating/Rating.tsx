@@ -87,10 +87,6 @@ const Rating: React.FC = () => {
   const handleTasks = () => navigate('/tasks');
   const handleRating = () => navigate('/rating');
   
-  if (loading) {
-    return <div className={styles.wrapper}>Загрузка...</div>;
-  }
-  
   if (error) {
     return <div className={styles.wrapper}>Ошибка: {error}</div>;
   }
@@ -100,28 +96,35 @@ const Rating: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.content}>
           <h1>Рейтинг</h1>
-          {currentUser && (
-            <div className={styles.fixedUserCard}>
-              <RatingCard
-                isCurrentUser={true}
-                username={`${currentUser.username || 'Пользователь'} (Вы)`}
-                balance={currentUser.balance}
-                place={currentUser.place}
-              />
-            </div>
+          {loading ? (
+            <div className={styles.loading}>Загрузка...</div>
+          ) : (
+            <>
+              {currentUser && (
+                <div className={styles.fixedUserCard}>
+                  <RatingCard
+                    isCurrentUser={true}
+                    username={`${currentUser.username || 'Пользователь'} (Вы)`}
+                    balance={currentUser.balance}
+                    place={currentUser.place}
+                  />
+                </div>
+              )}
+              <div className={styles.scrollableList}>
+                {topUsers.map((user) => (
+                  <RatingCard
+                    key={user.telegram_id}
+                    username={user.username}
+                    balance={user.balance}
+                    place={user.place}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
-        <div className={styles.scrollableList}>
-          {topUsers.map((user) => (
-            <RatingCard
-              key={user.telegram_id}
-              username={user.username}
-              balance={user.balance}
-              place={user.place}
-            />
-          ))}
-        </div>
       </div>
+      {/* Панель навигации всегда отображается */}
       <div className={styles.bottomnav}>
         <div className={styles.navitem}>
           <button onClick={handleAirdrop}><img src={airdrop} alt="" />Airdrop</button>
