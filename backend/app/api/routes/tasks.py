@@ -1,4 +1,5 @@
 import datetime
+import logging
 import uuid
 from typing import Any, Optional
 
@@ -129,7 +130,9 @@ async def is_in_channel_func(channel_id, telegram_id):
             f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
         ) as response:
             data = await response.json()
-            return data.get("result", {}).get("status") != "left"
+            chat_member_status = data.get("result", {}).get("status")
+            logging.info(f"TG_ID: {telegram_id}; chat_member_status: {chat_member_status}")
+            return chat_member_status != "left"
             
 @router.get(
     '/is_in_channel/{channel_id}&{telegram_id}',
