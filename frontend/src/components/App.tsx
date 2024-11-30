@@ -11,6 +11,7 @@ import { IUser } from '../interfaces/User.ts';
 import {TG} from '../api/request.ts';
 TG.expand();
 TG.disableVerticalSwipes();
+TG.enableClosingConfirmation();
 
 TG.CloudStorage.getItem('external_links_enabled', (error : any, value : any) => {
   if (!error && value !== 'true') {
