@@ -42,7 +42,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       
       let userUUID = ""
       if (userResponse && userResponse.id){
-        userUUID = response.id;
+        userUUID = userResponse.id;
       }
       
       // Check response and set appropriate status
