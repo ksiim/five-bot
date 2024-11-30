@@ -176,7 +176,7 @@ async def give_five(
         if not from_user:
             raise HTTPException(status_code=404, detail="From user not found")
         
-        give_five_to_referrer_value = crud_setting.get_setting_by_name(
+        give_five_to_referrer_value = await crud_setting.get_setting_by_name(
             session, "give_five_to_referrer_value"
         )
         print(give_five_to_referrer_value)
