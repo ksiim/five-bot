@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './TaskPopup.module.scss';
 import Button from '../Button/Button.tsx';
-import walletIcon from '../../assets/images/wallet.svg'
+import walletIcon from '../../assets/images/wallet.svg';
+import checkIcon from '../../assets/images/wallet.svg';
+import { request, TG } from '../../api/request.ts'; // Adjust import path as needed
 
 interface TaskPopupProps {
   task: {
@@ -10,14 +12,51 @@ interface TaskPopupProps {
     cost: number;
     description?: string;
     link?: string;
+    verification_link?: string;
   };
   onClose: () => void;
 }
 
 const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
+  const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [verificationMessage, setVerificationMessage] = useState<string>('');
+  
   const handleOpenLink = () => {
     if (task.link) {
       window.open(task.link, '_blank', 'noopener,noreferrer');
+    }
+  };
+  
+  const handleVerifyTask = async () => {
+    try {
+      // Extract channel ID from verification link
+      const channelIdMatch = task.verification_link?.match(/channel_id=(-?\d+)/);
+      const telegramId = TG.initData?.split('&')[0].split('=')[1];
+      
+      if (!channelIdMatch || !telegramId) {
+        throw new Error('Unable to extract channel ID or Telegram ID');
+      }
+      
+      const channelId = channelIdMatch[1];
+      
+      setVerificationStatus('loading');
+      setVerificationMessage('');
+      
+      // Make verification request
+      const response = await request(`tasks/is_in_channel/${channelId}&${telegramId}`, 'GET', null);
+      
+      // Check response and set appropriate status
+      if (response.status === 'success' || response.verified === true) {
+        setVerificationStatus('success');
+        setVerificationMessage('Задача успешно выполнена!');
+      } else {
+        setVerificationStatus('error');
+        setVerificationMessage(response.message || 'Не удалось подтвердить выполнение задачи');
+      }
+    } catch (error) {
+      console.error('Verification error:', error);
+      setVerificationStatus('error');
+      setVerificationMessage('Произошла ошибка при проверке');
     }
   };
   
@@ -37,11 +76,32 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
         {task.description && (
           <p className={styles.description}>{task.description}</p>
         )}
-        <Button
-          text={'Выполнить задание'}
-          icon={walletIcon}
-          onClick={handleOpenLink}
-        />
+        <div className={styles.buttonGroup}>
+          <Button
+            text={'Выполнить задание'}
+            icon={walletIcon}
+            onClick={handleOpenLink}
+          />
+          <Button
+            text={'Проверить'}
+            icon={checkIcon}
+            onClick={handleVerifyTask}
+            disabled={verificationStatus === 'loading'}
+          />
+        </div>
+        {verificationMessage && (
+          <p
+            className={`${styles.verificationMessage} ${
+              verificationStatus === 'success'
+                ? styles.successMessage
+                : verificationStatus === 'error'
+                  ? styles.errorMessage
+                  : ''
+            }`}
+          >
+            {verificationMessage}
+          </p>
+        )}
       </div>
     </div>
   );
