@@ -192,7 +192,7 @@ async def give_five(
     
     await session.refresh(user)
     
-    user = await crud_user.update_balance(session, user)
+    user = await crud_user.update_balance(session, user, give_five_value)
     user.last_five_timestamp = datetime.datetime.now()
     
     await session.commit()
