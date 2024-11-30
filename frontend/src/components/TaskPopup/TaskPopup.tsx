@@ -39,12 +39,12 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       const response = await request(`${task.verification_link}&${telegramId}`, 'GET', null);
       
       // Check response and set appropriate status
-      if (response.status === 'success' || response.verified === true) {
+      if (response) {
         setVerificationStatus('success');
         setVerificationMessage('Задача успешно выполнена!');
       } else {
         setVerificationStatus('error');
-        setVerificationMessage(response.message || 'Не удалось подтвердить выполнение задачи');
+        setVerificationMessage('Не удалось подтвердить выполнение задачи');
       }
     } catch (error) {
       console.error('Verification error:', error);
