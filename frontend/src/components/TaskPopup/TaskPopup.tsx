@@ -52,7 +52,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       }
       
       // Check response and set appropriate status
-      if (response) {
+      if (response == true) {
         await request('user-tasks/', 'POST', taskUserInfo);
         onClose();
       } else {
