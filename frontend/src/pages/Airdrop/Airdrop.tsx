@@ -10,37 +10,34 @@ import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../../components/Loader/Loader.tsx';
 
 const Airdrop: React.FC = () => {
   const navigate = useNavigate();
   const [tonConnectUI] = useTonConnectUI();
   const [tonWalletAddress, setTonWalletAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const handleWalletConnection = useCallback((address: string) => {
     setTonWalletAddress(address);
-    console.log('Wallet connected successfully!');
+    localStorage.setItem("tonWalletAddress", address);
+    console.log("Wallet connected successfully!");
     setIsLoading(false);
   }, []);
   
   const handleWalletDisconnection = useCallback(() => {
     setTonWalletAddress(null);
-    console.log('Wallet disconnected successfully!');
+    localStorage.removeItem("tonWalletAddress");
+    console.log("Wallet disconnected successfully!");
     setIsLoading(false);
   }, []);
   
   useEffect(() => {
-    const checkWalletConnection = async () => {
-      if (tonConnectUI.account?.address) {
-        handleWalletConnection(tonConnectUI.account?.address);
-      } else {
-        handleWalletDisconnection();
-      }
-    };
-    
-    checkWalletConnection();
+    const savedAddress = localStorage.getItem("tonWalletAddress");
+    if (savedAddress) {
+      handleWalletConnection(savedAddress);
+    } else {
+      handleWalletDisconnection();
+    }
     
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
@@ -56,20 +53,19 @@ const Airdrop: React.FC = () => {
   }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
   
   const handleWalletAction = async () => {
-    if (tonWalletAddress) {
-      setIsModalOpen(true); // Показать всплывающее окно
+    if (tonConnectUI.connected) {
+      const confirmation = window.confirm(
+        "Вы уверены, что хотите разорвать соединение с кошельком?"
+      );
+      if (confirmation) {
+        setIsLoading(true);
+        await tonConnectUI.disconnect();
+        console.log("Wallet disconnected successfully!");
+      }
     } else {
-      await tonConnectUI.openModal(); // Подключение кошелька
+      await tonConnectUI.openModal();
+      console.log("Wallet connected successfully!");
     }
-  };
-  
-  const handleConfirmDisconnect = () => {
-    handleWalletDisconnection();
-    setIsModalOpen(false); // Закрыть всплывающее окно
-  };
-  
-  const handleCancelDisconnect = () => {
-    setIsModalOpen(false); // Закрыть всплывающее окно
   };
   
   const handleTransaction = async () => {
@@ -77,19 +73,20 @@ const Airdrop: React.FC = () => {
     
     try {
       const transaction: SendTransactionRequest = {
-        validUntil: Date.now() + 5 * 60 * 1000, // 5 минут
+        validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
         messages: [
           {
-            address: 'UQBKCoqHQaZLBkLp--tUgT4u6Iiw-7BwgdqwHV2P3dOi0Dq3',
-            amount: '200', // Toncoin в нанотонах
+            // Replace with the actual wallet address and amount you want to use
+            address: "UQBKCoqHQaZLBkLp--tUgT4u6Iiw-7BwgdqwHV2P3dOi0Dq3",
+            amount: "200", // Toncoin in nanotons
           },
         ],
       };
       
       await tonConnectUI.sendTransaction(transaction);
-      console.log('Transaction sent successfully!');
+      console.log("Transaction sent successfully!");
     } catch (error) {
-      console.error('Transaction failed:', error);
+      console.error("Transaction failed:", error);
     }
   };
   
@@ -97,11 +94,11 @@ const Airdrop: React.FC = () => {
     return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
   };
   
-  const handleAirdrop = () => navigate('/airdrop');
-  const handleFriends = () => navigate('/friends');
-  const handleClicker = () => navigate('/');
-  const handleTasks = () => navigate('/tasks');
-  const handleRating = () => navigate('/rating');
+  const handleAirdrop = () => { navigate('/airdrop'); };
+  const handleFriends = () => { navigate('/friends'); };
+  const handleClicker = () => { navigate('/'); };
+  const handleTasks = () => { navigate('/tasks'); };
+  const handleRating = () => { navigate('/rating'); };
   
   return (
     <div className={styles.wrapper}>
@@ -109,7 +106,7 @@ const Airdrop: React.FC = () => {
         <div className={styles.content}>
           <h1>Airdrop</h1>
           {isLoading ? (
-            <Loader/>
+            <div className={styles.loading}>Загрузка...</div>
           ) : (
             <>
               <h2>Задача для участия в Airdrop:</h2>
@@ -118,7 +115,7 @@ const Airdrop: React.FC = () => {
                   <Button
                     text={`Кошелек подключен: ${formatAddress(tonWalletAddress)}`}
                     icon={walletIcon}
-                    onClick={handleWalletAction}
+                    onClick={() => alert("Кошелек уже подключен!")}
                   />
                 ) : (
                   <Button
@@ -137,21 +134,16 @@ const Airdrop: React.FC = () => {
                 )}
                 
                 <div className={styles.paragraphs}>
-                  <p>
-                    Airdrop - это распределение токенов на кошельки игроков.
-                    Вскоре токены будут торговаться на ведущих биржах, и вы
-                    сможете купить/продать наш токен. Для того чтобы получить
-                    airdrop необходимо выполнить все задачи, которые
-                    представлены выше.
+                  <p>Airdrop - это распределение токенов на кошельки игроков. Вскоре
+                    токены будут торговаться на ведущих биржах, и вы сможете
+                    купить/продать наш токен. Для того чтобы получить airdrop
+                    необходимо выполнить все задачи, которые представлены выше.
                   </p>
-                  <p>
-                    В настоящее время мы на находимся на этапе добычи, где
-                    игроки зарабатывают больше $FIVE для airdrop.
+                  <p>В настоящее время мы на находимся на этапе добычи, где игроки
+                    зарабатывают больше $FIVE для airdrop.
                   </p>
-                  <p>
-                    Подробные детали airdrop появятся позже в нашем официальном
-                    канале.
-                  </p>
+                  <p>Подробные детали airdrop появятся позже в нашем официальном
+                    канале.</p>
                 </div>
               </div>
               
@@ -162,44 +154,13 @@ const Airdrop: React.FC = () => {
           )}
         </div>
       </div>
-      
       <div className={styles.bottomnav}>
-        <div className={styles.navitem}>
-          <button onClick={handleAirdrop}>
-            <img src={airdrop} alt=""/>Airdrop
-          </button>
-        </div>
-        <div className={styles.navitem}>
-          <button onClick={handleTasks}>
-            <img src={tasks} alt=""/>Задания
-          </button>
-        </div>
-        <div className={styles.navitem}>
-          <button onClick={handleClicker}>
-            <img src={highFive} alt=""/>Дай пять
-          </button>
-        </div>
-        <div className={styles.navitem}>
-          <button onClick={handleFriends}>
-            <img src={friends} alt=""/>Друзья
-          </button>
-        </div>
-        <div className={styles.navitem}>
-          <button onClick={handleRating}>
-            <img src={rating} alt=""/>Рейтинг
-          </button>
-        </div>
+        <div className={styles.navitem}><button onClick={handleAirdrop}><img src={airdrop} alt="" />Airdrop</button></div>
+        <div className={styles.navitem}><button onClick={handleTasks}><img src={tasks} alt="" />Задания</button></div>
+        <div className={styles.navitem}><button onClick={handleClicker}><img src={highFive} alt="" />Дай пять</button></div>
+        <div className={styles.navitem}><button onClick={handleFriends}><img src={friends} alt="" />Друзья</button></div>
+        <div className={styles.navitem}><button onClick={handleRating}><img src={rating} alt="" />Рейтинг</button></div>
       </div>
-      
-      {isModalOpen && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <p>Вы хотите сменить данные кошелька?</p>
-            <button onClick={handleConfirmDisconnect}>Да</button>
-            <button onClick={handleCancelDisconnect}>Нет</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
