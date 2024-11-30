@@ -53,7 +53,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       
       // Check response and set appropriate status
       if (response) {
-        await request('user-tasks/{user_id}&{task_id}', 'POST', taskUserInfo)
+        await request('user-tasks/', 'POST', taskUserInfo)
       } else {
         setVerificationStatus('error');
         setVerificationMessage('Не удалось подтвердить выполнение задачи');
