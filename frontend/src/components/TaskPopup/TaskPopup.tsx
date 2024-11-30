@@ -30,20 +30,13 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   const handleVerifyTask = async () => {
     try {
       // Extract channel ID from verification link
-      const channelIdMatch = task.verification_link?.match(/channel_id=(-?\d+)/);
-      const telegramId = TG.initData?.split('&')[0].split('=')[1];
-      
-      if (!channelIdMatch || !telegramId) {
-        throw new Error('Unable to extract channel ID or Telegram ID');
-      }
-      
-      const channelId = channelIdMatch[1];
+      const telegramId = TG.initDataUnsafe.user.id;
       
       setVerificationStatus('loading');
       setVerificationMessage('');
       
       // Make verification request
-      const response = await request(`tasks/is_in_channel/${channelId}&${telegramId}`, 'GET', null);
+      const response = await request(`${task.verification_link}&${telegramId}`, 'GET', null);
       
       // Check response and set appropriate status
       if (response.status === 'success' || response.verified === true) {
