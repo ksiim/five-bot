@@ -166,7 +166,8 @@ const Tasks: React.FC = () => {
             taskName: selectedTask.title,
             cost: selectedTask.reward,
             description: selectedTask.description,
-            link: selectedTask.link
+            link: selectedTask.link,
+            verification_link: selectedTask.verification_link
           }}
           onClose={closePopup}
         />

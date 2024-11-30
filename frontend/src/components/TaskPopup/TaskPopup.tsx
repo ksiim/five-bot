@@ -12,7 +12,7 @@ interface TaskPopupProps {
     cost: number;
     description?: string;
     link?: string;
-    verification_link?: string;
+    verification_link: string;
   };
   onClose: () => void;
 }
