@@ -21,6 +21,11 @@ interface Task {
   task_type_id: string;
 }
 
+interface TasksResponse {
+  data: Task[];
+  count: number;
+}
+
 const Tasks: React.FC = () => {
   const navigate = useNavigate();
   
@@ -58,7 +63,12 @@ const Tasks: React.FC = () => {
           throw new Error('Telegram ID not found');
         }
         
-        const fetchedTasks = await request(`tasks/user/${telegramId}`, 'GET', null);
+        const response: TasksResponse = await request(`tasks/user/${telegramId}`, 'GET', null);
+        
+        console.log('Full API response:', response);
+        
+        // Directly use the data array from the response
+        const fetchedTasks = response.data;
         
         setTasks(fetchedTasks);
         setError(null);
@@ -154,7 +164,9 @@ const Tasks: React.FC = () => {
           task={{
             iconUrl: linkIcon,
             taskName: selectedTask.title,
-            cost: selectedTask.reward
+            cost: selectedTask.reward,
+            description: selectedTask.description,
+            link: selectedTask.link
           }}
           onClose={closePopup}
         />
