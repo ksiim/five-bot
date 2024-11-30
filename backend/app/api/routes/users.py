@@ -179,11 +179,14 @@ async def give_five(
         give_five_to_referrer_value = await crud_setting.get_setting_by_name(
             session, "give_five_to_referrer_value"
         )
-        print(give_five_to_referrer_value)
         
+        give_five_to_referrer_value = int(give_five_to_referrer_value.value)
+        
+        await session.refresh(from_user)
+         
         await crud_user.update_balance(
             session, from_user,
-            int(give_five_to_referrer_value.value)
+            int(give_five_to_referrer_value)
         )
     
     user = await crud_user.update_balance(session, user, int(give_five_value.value))
