@@ -70,17 +70,6 @@ const Tasks: React.FC = () => {
     fetchTasks();
   }, []);
   
-  // Остальной код компонента остается без изменений
-  if (isLoading) {
-    return (
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          <p>Loading tasks...</p>
-        </div>
-      </div>
-    );
-  }
-  
   if (error) {
     return (
       <div className={styles.wrapper}>
