@@ -73,13 +73,38 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
   };
   
   useEffect(() => {
-    checkLastFiveTimestamp();
-    const timer = setInterval(() => {
-      checkLastFiveTimestamp();
-    }, 60000); // Обновляем раз в минуту, чтобы не перегружать API
+    const fetchBalanceAndCheckTimestamp = async () => {
+      try {
+        // Обновляем баланс
+        const updatedBalance = await request(`users/balance/${data.telegram_id}`, 'GET', null);
+        if (typeof updatedBalance === 'number') {
+          setUser((prev: any) => ({
+            ...prev,
+            balance: updatedBalance, // Обновляем баланс в состоянии
+          }));
+        } else {
+          console.error('Invalid balance received:', updatedBalance);
+        }
+        
+        // Проверяем возможность дать "пять"
+        await checkLastFiveTimestamp();
+      } catch (error) {
+        console.error('Error during balance or timestamp check:', error);
+      }
+    };
     
-    return () => clearInterval(timer);
-  }, [data.telegram_id]);
+    // Немедленный вызов функции при загрузке компонента
+    fetchBalanceAndCheckTimestamp();
+    
+    // Устанавливаем интервал для обновления данных
+    const intervalId = setInterval(() => {
+      fetchBalanceAndCheckTimestamp();
+    }, 60000); // Каждую минуту
+    
+    // Очищаем интервал при размонтировании компонента
+    return () => clearInterval(intervalId);
+  }, [data.telegram_id, setUser]); // Добавляем зависимости
+  
   
   const handleGiveFive = async () => {
     try {
