@@ -186,7 +186,7 @@ async def give_five(
          
         await crud_user.update_balance(
             session, from_user,
-            int(give_five_to_referrer_value)
+            give_five_to_referrer_value
         )
     
     user = await crud_user.update_balance(session, user, int(give_five_value.value))
