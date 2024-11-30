@@ -188,8 +188,12 @@ async def give_five(
             session, from_user,
             give_five_to_referrer_value
         )
+        
+    give_five_value = int(give_five_value.value)
     
-    user = await crud_user.update_balance(session, user, int(give_five_value.value))
+    await session.refresh(user)
+    
+    user = await crud_user.update_balance(session, user)
     user.last_five_timestamp = datetime.datetime.now()
     
     await session.commit()
