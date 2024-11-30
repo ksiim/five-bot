@@ -22,7 +22,7 @@ from app.models import (
 router = APIRouter()
 
 @router.post(
-    '/{user_id}&{task_id}',
+    '/',
     response_model=UserTaskPublic
 )
 async def create_user_task(
