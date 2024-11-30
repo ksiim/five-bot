@@ -48,4 +48,5 @@ async def delete_setting(*, session: AsyncSession, setting: Setting) -> Setting:
     
 async def get_setting_by_name(session: AsyncSession, name) -> Setting:
     statement = select(Setting).filter(Setting.name == name)
-    return (await session.execute(statement)).scalar_one_or_none()
+    result = (await session.execute(statement)).scalar_one_or_none()
+    return result
