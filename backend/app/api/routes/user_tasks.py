@@ -30,9 +30,9 @@ async def create_user_task(
     session: SessionDep,
     user_task: UserTaskCreate
 ):
-    task = (await crud_task.get_task_by_id(user_task.task_id))
+    task = (await crud_task.get_task_by_id(session, user_task.task_id))
     reward = task.reward
-    user = (await crud_user.get_user_by_id(user_task.user_id))
+    user = (await crud_user.get_user_by_id(session, user_task.user_id))
     await crud_user.update_balance(session, user, reward)
     user_task = await crud_user_task.create_user_task(session, user_task)
     return user_task
