@@ -18,6 +18,11 @@ interface TaskPopupProps {
   onClose: () => void;
 }
 
+interface taskUserData {
+  user_id: string,
+  task_id: string
+}
+
 const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [verificationMessage, setVerificationMessage] = useState<string>('');
@@ -45,9 +50,14 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
         userUUID = userResponse.id;
       }
       
+      const taskUserInfo:taskUserData = {
+        user_id:userUUID,
+        task_id:task.id
+      }
+      
       // Check response and set appropriate status
       if (response) {
-        await request(`user-tasks/${telegramId}&${userUUID}`, 'POST', null)
+        await request(`/api/v1/user-tasks/{user_id}&{task_id}`, 'POST', taskUserInfo)
       } else {
         setVerificationStatus('error');
         setVerificationMessage('Не удалось подтвердить выполнение задачи');
