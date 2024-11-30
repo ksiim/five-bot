@@ -34,57 +34,42 @@ const Tasks: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Navigation handlers
-  const handleAirdrop = () => navigate('/airdrop');
-  const handleFriends = () => navigate('/friends');
-  const handleClicker = () => navigate('/');
-  const handleTasks = () => navigate('/tasks');
-  const handleRating = () => navigate('/rating');
-  
-  // Task selection handler
-  const handleTaskClick = (task: Task) => {
-    setSelectedTask(task);
+  // Функция для загрузки задач
+  const fetchTasks = async () => {
+    try {
+      setIsLoading(true);
+      const telegramId = TG.initDataUnsafe.user.id;
+      
+      if (!telegramId) {
+        throw new Error('Telegram ID not found');
+      }
+      
+      const response: TasksResponse = await request(`tasks/user/${telegramId}`, 'GET', null);
+      console.log('Full API response:', response);
+      
+      setTasks(response.data); // Обновление списка задач
+      setError(null);
+    } catch (err) {
+      console.error('Failed to fetch tasks:', err);
+      setError('Failed to load tasks. Please try again later.');
+      setTasks([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
   
-  // Close popup handler
+  // Обработчик закрытия попапа
   const closePopup = () => {
     setSelectedTask(null);
+    fetchTasks(); // Обновление задач после закрытия попапа
   };
   
-  // Fetch tasks effect
+  // Вызов fetchTasks при монтировании компонента
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setIsLoading(true);
-        // Assume TG.initDataRaw contains the Telegram user ID
-        const telegramId = TG.initDataUnsafe.user.id;
-        
-        if (!telegramId) {
-          throw new Error('Telegram ID not found');
-        }
-        
-        const response: TasksResponse = await request(`tasks/user/${telegramId}`, 'GET', null);
-        
-        console.log('Full API response:', response);
-        
-        // Directly use the data array from the response
-        const fetchedTasks = response.data;
-        
-        setTasks(fetchedTasks);
-        setError(null);
-      } catch (err) {
-        console.error('Failed to fetch tasks:', err);
-        setError('Failed to load tasks. Please try again later.');
-        setTasks([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
     fetchTasks();
   }, []);
   
-  // Render loading state
+  // Остальной код компонента остается без изменений
   if (isLoading) {
     return (
       <div className={styles.wrapper}>
@@ -95,7 +80,6 @@ const Tasks: React.FC = () => {
     );
   }
   
-  // Render error state
   if (error) {
     return (
       <div className={styles.wrapper}>
@@ -121,10 +105,10 @@ const Tasks: React.FC = () => {
             {tasks.map((task) => (
               <TaskCard
                 key={task.id}
-                iconUrl={linkIcon} // You might want to map this dynamically if you have task-specific icons
+                iconUrl={linkIcon}
                 taskName={task.title}
                 cost={task.reward}
-                onClick={() => handleTaskClick(task)}
+                onClick={() => setSelectedTask(task)}
               />
             ))}
           </div>
@@ -132,28 +116,29 @@ const Tasks: React.FC = () => {
       </div>
       
       <div className={styles.bottomnav}>
+        {/* Кнопки навигации */}
         <div className={styles.navitem}>
-          <button onClick={handleAirdrop}>
+          <button onClick={() => navigate('/airdrop')}>
             <img src={airdrop} alt="" />Airdrop
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={handleTasks}>
+          <button onClick={() => navigate('/tasks')}>
             <img src={tasksImg} alt="" />Задания
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={handleClicker}>
+          <button onClick={() => navigate('/')}>
             <img src={highFive} alt="" />Дай пять
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={handleFriends}>
+          <button onClick={() => navigate('/friends')}>
             <img src={friends} alt="" />Друзья
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={handleRating}>
+          <button onClick={() => navigate('/rating')}>
             <img src={rating} alt="" />Рейтинг
           </button>
         </div>
@@ -162,13 +147,13 @@ const Tasks: React.FC = () => {
       {selectedTask && (
         <TaskPopup
           task={{
-            id:selectedTask.id,
+            id: selectedTask.id,
             iconUrl: linkIcon,
             taskName: selectedTask.title,
             cost: selectedTask.reward,
             description: selectedTask.description,
             link: selectedTask.link,
-            verification_link: selectedTask.verification_link
+            verification_link: selectedTask.verification_link,
           }}
           onClose={closePopup}
         />
@@ -176,5 +161,6 @@ const Tasks: React.FC = () => {
     </div>
   );
 };
+
 
 export default Tasks;
