@@ -8,11 +8,19 @@ interface TaskPopupProps {
     iconUrl: string;
     taskName: string;
     cost: number;
+    description?: string;
+    link?: string;
   };
   onClose: () => void;
 }
 
 const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
+  const handleOpenLink = () => {
+    if (task.link) {
+      window.open(task.link, '_blank', 'noopener,noreferrer');
+    }
+  };
+  
   return (
     <div className={styles.popup}>
       <div className={styles.popupContent}>
@@ -26,8 +34,14 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
             <p>+{task.cost.toLocaleString()} $FIVE</p>
           </div>
         </div>
-        <p>Дополнительная информация о задании...</p>
-        <Button text={'Подключите кошелёк'} icon={walletIcon}/>
+        {task.description && (
+          <p className={styles.description}>{task.description}</p>
+        )}
+        <Button
+          text={'Выполнить задание'}
+          icon={walletIcon}
+          onClick={handleOpenLink}
+        />
       </div>
     </div>
   );
