@@ -38,10 +38,16 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       
       // Make verification request
       const response = await request(`${task.verification_link}&${telegramId}`, 'GET', null);
+      const userResponse = await request(`users/${telegramId}`, 'GET', null);
+      
+      let userUUID = ""
+      if (userResponse && userResponse.id){
+        userUUID = response.id;
+      }
       
       // Check response and set appropriate status
       if (response) {
-        await request(`user-tasks/${telegramId}&${task.id}`, 'POST', null)
+        await request(`user-tasks/${telegramId}&${userUUID}`, 'POST', null)
       } else {
         setVerificationStatus('error');
         setVerificationMessage('Не удалось подтвердить выполнение задачи');
