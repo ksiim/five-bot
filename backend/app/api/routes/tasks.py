@@ -132,6 +132,8 @@ async def is_in_channel_func(channel_id, telegram_id):
             data = await response.json()
             chat_member_status = data.get("result", {}).get("status")
             print(f"TG_ID: {telegram_id}; chat_member_status: {chat_member_status}")
+            if chat_member_status is None:
+                return False
             return chat_member_status != "left"
             
 @router.get(
