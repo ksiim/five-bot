@@ -30,7 +30,7 @@ body {
 }
 
 .wrapper {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -46,11 +46,14 @@ body {
   align-items: start;
   padding: 22vw 4.2vw 0;
   width: 100%;
+  height: calc(100vh - 20vw);
 }
 
 .content {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  background: inherit;
 }
 .content h1 {
   font-size: 30px;
@@ -136,6 +139,21 @@ body {
   color: #CFCFCF;
   height: 9.7vw;
   margin-bottom: 2vw;
+}
+
+.loading {
+  position: fixed; /* Фиксируем относительно окна браузера */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Занимаем все пространство */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: inherit; /* Наследуем фон */
+  z-index: 1000; /* Поверх всех элементов */
+  color: white;
+  font-size: 1.5rem;
 }
 
 /*# sourceMappingURL=Airdrop.module.css.map */

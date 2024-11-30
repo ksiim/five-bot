@@ -5,7 +5,7 @@ import handImage from '../../assets/images/hand group.webp';
 import airdrop from '../../assets/images/airdrop.svg';
 import burger from '../../assets/images/burger.svg';
 import friends from '../../assets/images/friends.svg';
-import highFive from '../../assets/images/highFive.svg';
+import highFive from '../../assets/images/highFive_active.svg';
 import rating from '../../assets/images/rating.svg';
 import tasks from '../../assets/images/tasks.svg';
 import { useNavigate } from 'react-router-dom';

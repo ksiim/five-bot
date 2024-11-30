@@ -4,12 +4,13 @@ import styles from './Airdrop.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
 import tonIcon from '../../assets/images/ton.svg';
-import airdrop from '../../assets/images/airdrop.svg';
+import airdrop from '../../assets/images/airdrop_active.svg';
 import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader/Loader.tsx';
 
 const Airdrop: React.FC = () => {
   const navigate = useNavigate();
@@ -54,13 +55,11 @@ const Airdrop: React.FC = () => {
   }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
   
   const handleWalletAction = async () => {
-    if (tonConnectUI.connected) {
-      setIsLoading(true);
-      await tonConnectUI.disconnect();
-    } else {
+    if (!tonConnectUI.connected) {
       await tonConnectUI.openModal();
     }
   };
+  
   
   const handleTransaction = async () => {
     if (!tonWalletAddress) return;
@@ -96,62 +95,58 @@ const Airdrop: React.FC = () => {
   const handleTasks = () => { navigate('/tasks'); };
   const handleRating = () => { navigate('/rating'); };
   
-  if (isLoading) {
-    return (
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          <div>Loading...</div>
-        </div>
-      </div>
-    );
-  }
-  
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.content}>
           <h1>Airdrop</h1>
-          <h2>Задача для участия в Airdrop:</h2>
-          <div className={styles.info}>
-            {tonWalletAddress ? (
-              <Button
-                text={`Кошелек подключен: ${formatAddress(tonWalletAddress)}`}
-                icon={walletIcon}
-                onClick={handleWalletAction}
-              />
-            ) : (
-              <Button
-                text="1. Подключите кошелек"
-                icon={walletIcon}
-                onClick={handleWalletAction}
-              />
-            )}
-            
-            {tonWalletAddress && (
-              <Button
-                text="2. Совершите TON транзакцию"
-                icon={tonIcon}
-                onClick={handleTransaction}
-              />
-            )}
-            
-            <div className={styles.paragraphs}>
-              <p>Airdrop - это распределение токенов на кошельки игроков. Вскоре
-                токены будут торговаться на ведущих биржах, и вы сможете
-                купить/продать наш токен. Для того чтобы получить airdrop
-                необходимо выполнить все задачи, которые представлены выше.
-              </p>
-              <p>В настоящее время мы на находимся на этапе добычи, где игроки
-                зарабатывают больше $FIVE для airdrop.
-              </p>
-              <p>Подробные детали airdrop появятся позже в нашем официальном
-                канале.</p>
-            </div>
-          </div>
-          
-          <div className={styles.advice}>
-            <p>Кошелек можно подключать только к одному аккаунту</p>
-          </div>
+          {isLoading ? (
+            <Loader/>
+          ) : (
+            <>
+              <h2>Задача для участия в Airdrop:</h2>
+              <div className={styles.info}>
+                {tonWalletAddress ? (
+                  <Button
+                    text={`Кошелек подключен: ${formatAddress(tonWalletAddress)}`}
+                    icon={walletIcon}
+                    onClick={handleWalletAction}
+                  />
+                ) : (
+                  <Button
+                    text="1. Подключите кошелек"
+                    icon={walletIcon}
+                    onClick={handleWalletAction}
+                  />
+                )}
+                
+                {tonWalletAddress && (
+                  <Button
+                    text="2. Совершите TON транзакцию"
+                    icon={tonIcon}
+                    onClick={handleTransaction}
+                  />
+                )}
+                
+                <div className={styles.paragraphs}>
+                  <p>Airdrop - это распределение токенов на кошельки игроков. Вскоре
+                    токены будут торговаться на ведущих биржах, и вы сможете
+                    купить/продать наш токен. Для того чтобы получить airdrop
+                    необходимо выполнить все задачи, которые представлены выше.
+                  </p>
+                  <p>В настоящее время мы на находимся на этапе добычи, где игроки
+                    зарабатывают больше $FIVE для airdrop.
+                  </p>
+                  <p>Подробные детали airdrop появятся позже в нашем официальном
+                    канале.</p>
+                </div>
+              </div>
+              
+              <div className={styles.advice}>
+                <p>Кошелек можно подключать только к одному аккаунту</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className={styles.bottomnav}>

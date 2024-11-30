@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Tasks.module.scss';
 import linkIcon from '../../assets/images/link.svg';
 import airdrop from '../../assets/images/airdrop.svg';
-import tasks from '../../assets/images/tasks.svg';
+import tasks from '../../assets/images/tasks_active.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';

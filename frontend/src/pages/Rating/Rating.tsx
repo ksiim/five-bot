@@ -4,11 +4,12 @@ import airdrop from '../../assets/images/airdrop.svg';
 import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
-import rating from '../../assets/images/rating.svg';
+import rating from '../../assets/images/rating_active.svg';
 import RatingCard from '../../components/RatingCard/RatingCard';
 import { useNavigate } from 'react-router-dom';
 import { request, TG } from '../../api/request';
 import { IUser } from '../../interfaces/User';
+import Loader from '../../components/Loader/Loader.tsx';
 
 interface UserRating extends IUser {
   place?: number | string;
@@ -97,7 +98,7 @@ const Rating: React.FC = () => {
         <div className={styles.content}>
           <h1>Рейтинг</h1>
           {loading ? (
-            <div className={styles.loading}>Загрузка...</div>
+            <Loader/>
           ) : (
             <>
               {currentUser && (

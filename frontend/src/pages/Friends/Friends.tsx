@@ -5,7 +5,7 @@ import linkIcon from '../../assets/images/link.svg';
 import airdrop from '../../assets/images/airdrop.svg';
 import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
-import friends from '../../assets/images/friends.svg';
+import friends from '../../assets/images/friends_active.svg';
 import rating from '../../assets/images/rating.svg';
 import {useNavigate} from 'react-router-dom';
 import { TG, request } from '../../api/request.ts' // Укажите правильный путь
