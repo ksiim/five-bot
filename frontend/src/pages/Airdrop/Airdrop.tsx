@@ -115,7 +115,7 @@ const Airdrop: React.FC = () => {
                   <Button
                     text={`Кошелек подключен: ${formatAddress(tonWalletAddress)}`}
                     icon={walletIcon}
-                    onClick={() => alert("Кошелек уже подключен!")}
+                    onClick={handleWalletAction}
                   />
                 ) : (
                   <Button
