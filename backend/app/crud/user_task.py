@@ -41,3 +41,7 @@ async def get_all_user_tasks(session: AsyncSession) -> Any:
     user_tasks_count = await session.execute(select(func.count(UserTask.id)))
     
     return UserTasksPublic(data=user_tasks_list, count=user_tasks_count)
+
+async def get_user_task_by_id(session: AsyncSession, user_task_id) -> UserTask:
+    user_task = await session.get(UserTask, user_task_id)
+    return user_task

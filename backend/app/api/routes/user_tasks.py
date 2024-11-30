@@ -65,3 +65,17 @@ async def get_all_user_tasks(
 ):
     user_tasks = await crud_user_task.get_all_user_tasks(session)
     return user_tasks
+
+@router.delete(
+    '/{user_task_id}',
+)
+async def delete_user_task_by_id(
+    user_task_id: uuid.UUID,
+    session: SessionDep,
+):
+    user_task = await crud_user_task.get_user_task_by_id(session, user_task_id)
+    if not user_task:
+        raise HTTPException(status_code=404, detail="User Task not found")
+    await session.delete(user_task)
+    await session.commit()
+    return 'User Task deleted'
