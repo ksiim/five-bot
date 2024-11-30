@@ -162,6 +162,7 @@ const Tasks: React.FC = () => {
       {selectedTask && (
         <TaskPopup
           task={{
+            id:selectedTask.id,
             iconUrl: linkIcon,
             taskName: selectedTask.title,
             cost: selectedTask.reward,

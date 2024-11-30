@@ -7,6 +7,7 @@ import { request, TG } from '../../api/request.ts'; // Adjust import path as nee
 
 interface TaskPopupProps {
   task: {
+    id: string;
     iconUrl: string;
     taskName: string;
     cost: number;
@@ -40,8 +41,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       
       // Check response and set appropriate status
       if (response) {
-        setVerificationStatus('success');
-        setVerificationMessage('Задача успешно выполнена!');
+        await request(`user-tasks/${telegramId}&${task.id}`, 'POST', null)
       } else {
         setVerificationStatus('error');
         setVerificationMessage('Не удалось подтвердить выполнение задачи');
