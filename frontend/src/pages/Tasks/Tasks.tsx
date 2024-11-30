@@ -9,7 +9,8 @@ import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
 import TaskCard from '../../components/TaskCard/TaskCard';
 import TaskPopup from '../../components/TaskPopup/TaskPopup';
-import { request, TG } from '../../api/request.ts'; // Adjust the import path as needed
+import { request, TG } from '../../api/request.ts';
+import Loader from '../../components/Loader/Loader.tsx'; // Adjust the import path as needed
 
 interface Task {
   id: string;
@@ -90,6 +91,12 @@ const Tasks: React.FC = () => {
     );
   }
   
+  const handleAirdrop = () => navigate('/airdrop');
+  const handleFriends = () => navigate('/friends');
+  const handleClicker = () => navigate('/');
+  const handleTasks = () => navigate('/tasks');
+  const handleRating = () => navigate('/rating');
+  
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -98,11 +105,13 @@ const Tasks: React.FC = () => {
           <p>Выполняйте задания и зарабатывайте больше $FIVE</p>
         </div>
         
-        {tasks.length === 0 ? (
-          <p>Нет доступных задач</p>
-        ) : (
-          <div className={styles.taskList}>
-            {tasks.map((task) => (
+        <div className={styles.taskList}>
+          {isLoading ? (
+            <Loader/> // Добавлен текст загрузки
+          ) : tasks.length === 0 ? (
+            <p>Нет доступных задач</p>
+          ) : (
+            tasks.map((task) => (
               <TaskCard
                 key={task.id}
                 iconUrl={linkIcon}
@@ -110,36 +119,35 @@ const Tasks: React.FC = () => {
                 cost={task.reward}
                 onClick={() => setSelectedTask(task)}
               />
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
       
       <div className={styles.bottomnav}>
-        {/* Кнопки навигации */}
         <div className={styles.navitem}>
-          <button onClick={() => navigate('/airdrop')}>
-            <img src={airdrop} alt="" />Airdrop
+          <button onClick={handleAirdrop}>
+            <img src={airdrop} alt=""/>Airdrop
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={() => navigate('/tasks')}>
-            <img src={tasksImg} alt="" />Задания
+          <button onClick={handleTasks}>
+            <img src={tasksImg} alt=""/>Задания
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={() => navigate('/')}>
-            <img src={highFive} alt="" />Дай пять
+          <button onClick={handleClicker}>
+            <img src={highFive} alt=""/>Дай пять
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={() => navigate('/friends')}>
-            <img src={friends} alt="" />Друзья
+          <button onClick={handleFriends}>
+            <img src={friends} alt=""/>Друзья
           </button>
         </div>
         <div className={styles.navitem}>
-          <button onClick={() => navigate('/rating')}>
-            <img src={rating} alt="" />Рейтинг
+          <button onClick={handleRating}>
+            <img src={rating} alt=""/>Рейтинг
           </button>
         </div>
       </div>
