@@ -212,25 +212,28 @@ async def get_user_rank_by_telegram_id(session: SessionDep, telegram_id: int):
             User.id,
             User.telegram_id,
             User.balance,
-            func.rank().over(order_by=desc(User.balance)).label('rank')
+            func.dense_rank().over(order_by=desc(User.balance)).label('rank')
         )
+        .select_from(User)
         .subquery()
     )
-    
+
+    # Основной запрос для получения места в рейтинге или -1, если пользователь вне топ-50
     query = (
         select(
             case(
                 (subquery.c.rank <= 50, subquery.c.rank),
-                else_=-1
+                else_=literal(-1)
             ).label('rank')
         )
         .select_from(subquery)
         .where(subquery.c.telegram_id == telegram_id)
     )
-    
+
+    # Выполнение запроса
     result = await session.execute(query)
     rank = result.scalar()
-    
+
     return rank
 
 @router.delete(
