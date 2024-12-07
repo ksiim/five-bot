@@ -220,9 +220,7 @@ async def get_user_rank_by_telegram_id(session: SessionDep, telegram_id: int):
     query = (
         select(
             case(
-                [
-                    (subquery.c.rank <= 50, subquery.c.rank)
-                ],
+                (subquery.c.rank <= 50, subquery.c.rank),
                 else_=-1
             ).label('rank')
         )
