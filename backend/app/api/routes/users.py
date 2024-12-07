@@ -216,7 +216,7 @@ async def get_user_rate(
         User.id,
         User.balance,
         User.created_at,
-        func.rank().over(order_by=[User.balance.desc(), User.created_at.asc()]).label("rank")
+        func.rank().over(order_by=[User.balance.desc()]).label("rank")
     ).filter(User.id == user.id)
     
     result = await session.execute(query)
