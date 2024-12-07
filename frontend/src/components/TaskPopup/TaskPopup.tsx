@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './TaskPopup.module.scss';
 import Button from '../Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
@@ -26,11 +26,22 @@ interface taskUserData {
 const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [verificationMessage, setVerificationMessage] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
   
   const handleOpenLink = () => {
     if (task.link) {
       window.open(task.link, '_blank', 'noopener,noreferrer');
     }
+  };
+  
+  useEffect(() => {
+    setIsOpen(true); // Показываем поп-ап при монтировании
+    return () => setIsOpen(false); // Убираем поп-ап при размонтировании
+  }, [])
+  
+  const handleClose = () => {
+    setIsOpen(false); // Убираем поп-ап с анимацией
+    setTimeout(onClose, 400); // Закрываем через 400 мс (длительность анимации)
   };
   
   const handleVerifyTask = async () => {
@@ -67,49 +78,55 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   };
   
   return (
-    <div className={styles.popup}>
-      <div className={styles.popupContent}>
-        <button className={styles.closeButton} onClick={onClose}>
-          &times;
-        </button>
-        <div className={styles.info}>
-          <img src={task.iconUrl} alt="Task icon" className={styles.icon}/>
-          <div className={styles.info__text}>
-            <h2>{task.taskName}</h2>
-            <p>+{task.cost.toLocaleString()} $FIVE</p>
+    <>
+      <div
+        className={`${styles.popupOverlay} ${isOpen ? styles.open : ''}`}
+        onClick={handleClose}
+      ></div>
+      <div className={`${styles.popup} ${isOpen ? styles.open : ''}`}>
+        <div className={styles.popupContent}>
+          <button className={styles.closeButton} onClick={handleClose}>
+            &times;
+          </button>
+          <div className={styles.info}>
+            <img src={task.iconUrl} alt="Task icon" className={styles.icon} />
+            <div className={styles.info__text}>
+              <h2>{task.taskName}</h2>
+              <p>+{task.cost.toLocaleString()} $FIVE</p>
+            </div>
           </div>
+          {task.description && (
+            <p className={styles.description}>{task.description}</p>
+          )}
+          <div className={styles.buttonGroup}>
+            <Button
+              text={'Выполнить задание'}
+              icon={walletIcon}
+              onClick={handleOpenLink}
+            />
+            <Button
+              text={'Проверить'}
+              icon={checkIcon}
+              onClick={handleVerifyTask}
+              disabled={verificationStatus === 'loading'}
+            />
+          </div>
+          {verificationMessage && (
+            <p
+              className={`${styles.verificationMessage} ${
+                verificationStatus === 'success'
+                  ? styles.successMessage
+                  : verificationStatus === 'error'
+                    ? styles.errorMessage
+                    : ''
+              }`}
+            >
+              {verificationMessage}
+            </p>
+          )}
         </div>
-        {task.description && (
-          <p className={styles.description}>{task.description}</p>
-        )}
-        <div className={styles.buttonGroup}>
-          <Button
-            text={'Выполнить задание'}
-            icon={walletIcon}
-            onClick={handleOpenLink}
-          />
-          <Button
-            text={'Проверить'}
-            icon={checkIcon}
-            onClick={handleVerifyTask}
-            disabled={verificationStatus === 'loading'}
-          />
-        </div>
-        {verificationMessage && (
-          <p
-            className={`${styles.verificationMessage} ${
-              verificationStatus === 'success'
-                ? styles.successMessage
-                : verificationStatus === 'error'
-                  ? styles.errorMessage
-                  : ''
-            }`}
-          >
-            {verificationMessage}
-          </p>
-        )}
       </div>
-    </div>
+    </>
   );
 };
 
