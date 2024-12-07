@@ -5,7 +5,7 @@ from typing import Any, Optional
 import aiohttp
 import urllib
 
-from sqlalchemy import desc
+from sqlalchemy import desc, literal
 from app.core import config
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import col, delete, func, select, case
