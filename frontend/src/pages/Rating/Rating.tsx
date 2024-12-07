@@ -72,7 +72,7 @@ const Rating: React.FC = () => {
         setTopUsers(processedUsers);
         
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Произошла ошибка при загрузке данных');
+        setError('Что-то пошло не так 😔');
         console.error('Ошибка загрузки рейтинга:', err);
       } finally {
         setLoading(false);
@@ -89,7 +89,7 @@ const Rating: React.FC = () => {
   const handleRating = () => navigate('/rating');
   
   if (error) {
-    return <div className={styles.wrapper}>Ошибка: {error}</div>;
+    return <div className={styles.wrapper}>{error}</div>;
   }
   
   return (
