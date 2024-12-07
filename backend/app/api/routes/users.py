@@ -212,16 +212,22 @@ async def get_user_rate(
         raise HTTPException(status_code=404, detail="User not found")
     
     query = select(
-        func.rank().over(order_by=User.balance.desc()).label("rank")).where(User.id == user.id
-    )
+        User.id,
+        User.balance,
+        User.created_at,
+        func.rank().over(order_by=[User.balance.desc(), User.created_at.asc()]).label("rank")
+    ).alias("ranked_users")
     
-    result = await session.execute(query)
-    user_rank = result.fetchone()
+    # Выбираем ранг пользователя с указанным telegram_id
+    rank_query = select(query.c.rank).where(query.c.id == user.id)
+    
+    result = await session.execute(rank_query)
+    user_rank = result.scalar()
     
     if user_rank:
-        return user_rank.rank + 1
+        return user_rank + 1
     
-    return -1  # Если пользователь не найден в рейтинге
+    return -1
 
 @router.delete(
     '/{telegram_id}',
