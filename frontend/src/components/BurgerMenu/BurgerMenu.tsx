@@ -11,13 +11,15 @@ interface BurgerMenuProps {
 
 const BurgerMenu: React.FC<BurgerMenuProps> = ({ onClose }) => {
   return (
-    <div className={styles.overlay}>
-      <div className={styles.menu}>
+    <div className={styles.popup}>
+      <div className={styles.popupContent}>
         <button className={styles.closeButton} onClick={onClose}>
           &times;
         </button>
-        <Button text = {'Наш телеграм канал'} icon={telegramIcon} onClick={TG.openTelegramLink('https://t.me/givefive_community')}/>
-        <Button text = {'Условия пользования'} icon={documentIcon} onClick={TG.openTelegramLink('https://telegra.ph/Standard-Bot-Privacy-Policy-for-givefive-bot-09-21')}/>
+        <div className={styles.buttonGroup}>
+          <Button text = {'Наш телеграм канал'} icon={telegramIcon} onClick={TG.openTelegramLink('https://t.me/givefive_community')}/>
+          <Button text = {'Условия пользования'} icon={documentIcon} onClick={TG.openTelegramLink('https://telegra.ph/Standard-Bot-Privacy-Policy-for-givefive-bot-09-21')}/>
+        </div>
       </div>
     </div>
   );

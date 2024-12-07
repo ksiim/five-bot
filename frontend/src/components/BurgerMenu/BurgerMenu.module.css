@@ -1,43 +1,30 @@
-.overlay {
+.popup {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.menu {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.closeButton,
-.actionButton {
-  display: block;
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  height: 58vw;
+  background-color: rgb(132, 150, 200);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  padding: 30px 15px 38px 15px;
+  z-index: 100;
+  border-radius: 10px 10px 0 0;
+}
+
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .closeButton {
-  background-color: red;
-  color: white;
-}
-
-.actionButton {
-  background-color: blue;
-  color: white;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 5vw;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=BurgerMenu.module.css.map */
