@@ -68,7 +68,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3.33vw;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding-bottom: 20vw; // Отступ для нижней навигации
 
   // Стили скролла
