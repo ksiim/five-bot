@@ -207,12 +207,13 @@ async def give_five(
     '/user/rate/{telegram_id}',
 )
 async def get_user_rank_by_telegram_id(session: SessionDep, telegram_id: int):
+    # Подзапрос для получения места в рейтинге с использованием ROW_NUMBER()
     subquery = (
         select(
             User.id,
             User.telegram_id,
             User.balance,
-            func.dense_rank().over(order_by=desc(User.balance)).label('rank')
+            func.row_number().over(order_by=desc(User.balance)).label('rank')
         )
         .select_from(User)
         .subquery()
