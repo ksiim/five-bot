@@ -9,12 +9,12 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 422px) {
+@media (max-width: 375px) {
   /* Стили для экранов меньше 375px */
   .container {
     width: 100%;
     max-width: 422px; /* Максимальная ширина для мини приложения */
-    height: 625px; /* Максимальная высота для мини приложения */
+    height: 674px; /* Максимальная высота для мини приложения */
   }
 }
 body {
