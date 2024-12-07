@@ -65,18 +65,18 @@ body {
 
 .content {
   width: 100%;
-  height: calc(100% - 18vw); // Adjust the height
+  height: calc(100%); // Adjust the height
   overflow: hidden; // Prevent content from expanding beyond container
 }
 
 .scrollableList {
   width: 100%;
-  flex-grow: 1; /* Занимает всё доступное пространство */
-  overflow-y: auto; /* Вертикальная прокрутка */
+  height: 100%; // Take full height of content
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Отступы между элементами списка */
-  //padding-bottom: 20vw; /* Учитывайте нижний навигационный бар */
+  gap: 3.33vw;
+  overflow-y: scroll; // Changed from auto to scroll
+  padding-bottom: 20vw; // Reduced padding
   overscroll-behavior: contain; // Prevent scroll bouncing
 
   // Improved scrollbar styles
