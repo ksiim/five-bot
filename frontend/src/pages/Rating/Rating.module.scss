@@ -42,7 +42,7 @@ body {
   height: calc(100vh - 20vw); // Учитываем высоту нижней навигации
 }
 
-.innerContent {
+.content {
   width: 100%;
   position: sticky;
   top: 22vw;
@@ -63,7 +63,7 @@ body {
   margin-bottom: 7.5vw;
 }
 
-.innerContent {
+.content {
   width: 100%;
   height: calc(100% - 18vw); // Adjust the height
   overflow: hidden; // Prevent content from expanding beyond container
@@ -71,13 +71,12 @@ body {
 
 .scrollableList {
   width: 100%;
-  height: 100%; // Take full height of content
+  flex-grow: 1; /* Занимает всё доступное пространство */
+  overflow-y: auto; /* Вертикальная прокрутка */
   display: flex;
   flex-direction: column;
-  gap: 3.33vw;
-  overflow-y: scroll; // Changed from auto to scroll
-  padding-bottom: 20vw; // Reduced padding
-  overscroll-behavior: contain; // Prevent scroll bouncing
+  gap: 12px; /* Отступы между элементами списка */
+  padding-bottom: 20px; /* Учитывайте нижний навигационный бар */ // Prevent scroll bouncing
 
   // Improved scrollbar styles
   scrollbar-width: none; // For Firefox
