@@ -4,9 +4,12 @@ from typing import Any, Optional
 
 import aiohttp
 import urllib
+
+from sqlalchemy import desc
 from app.core import config
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlmodel import col, delete, func, select
+from sqlmodel import col, delete, func, select, case
+from sqlalchemy.orm import aliased
 
 from app.crud import user as crud_user
 from app.crud import setting as crud_setting
@@ -203,31 +206,34 @@ async def give_five(
 @router.get(
     '/user/rate/{telegram_id}',
 )
-async def get_user_rate(
-    telegram_id: int,
-    session: SessionDep
-):
-    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+async def get_user_rank_by_telegram_id(session: SessionDep, telegram_id: int):
+    subquery = (
+        select(
+            User.id,
+            User.telegram_id,
+            User.balance,
+            func.rank().over(order_by=desc(User.balance)).label('rank')
+        )
+        .subquery()
+    )
     
-    query = select(
-        User.id,
-        User.balance,
-        User.created_at,
-        func.rank().over(order_by=[User.balance.desc(), User.created_at.asc()]).label("rank")
-    ).alias("ranked_users")
+    query = (
+        select(
+            case(
+                [
+                    (subquery.c.rank <= 50, subquery.c.rank)
+                ],
+                else_=-1
+            ).label('rank')
+        )
+        .select_from(subquery)
+        .where(subquery.c.telegram_id == telegram_id)
+    )
     
-    # Выбираем ранг пользователя с указанным telegram_id
-    rank_query = select(query.c.rank).where(query.c.id == user.id)
+    result = await session.execute(query)
+    rank = result.scalar()
     
-    result = await session.execute(rank_query)
-    user_rank = result.scalar()
-    
-    if user_rank:
-        return user_rank + 1
-    
-    return -1
+    return rank
 
 @router.delete(
     '/{telegram_id}',
