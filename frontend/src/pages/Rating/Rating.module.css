@@ -65,7 +65,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3.33vw;
-  overflow-y: scroll;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 20vw;
 }
 .scrollableList::-webkit-scrollbar {

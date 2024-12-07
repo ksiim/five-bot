@@ -68,7 +68,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3.33vw;
-  overflow-y: scroll;
+  overflow-y: auto; // Разрешить вертикальную прокрутку
+  -webkit-overflow-scrolling: touch; // Поддержка плавной прокрутки на мобильных
   padding-bottom: 20vw; // Отступ для нижней навигации
 
   // Стили скролла
