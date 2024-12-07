@@ -211,13 +211,9 @@ async def get_user_rate(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    # Запрос для получения рейтинга пользователя с использованием RANK()
     query = select(
-        User.id,
-        User.balance,
-        User.created_at,
-        func.rank().over(order_by=[User.balance.desc()]).label("rank")
-    ).filter(User.id == user.id)
+        func.rank().over(order_by=User.balance.desc()).label("rank")).where(User.id == user.id
+    )
     
     result = await session.execute(query)
     user_rank = result.fetchone()
