@@ -23,7 +23,7 @@ class User(UserBase, table=True):
     last_five_timestamp: datetime.datetime = Field(default_factory=initial_last_five_timestamp_factory)
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
     last_activity_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
-    tasks: list["UserTask"] = Relationship(back_populates="user", cascade="all, delete-orphan")
+    
     
 class UserPublic(UserBase):
     id: uuid.UUID
@@ -82,8 +82,8 @@ class TaskTypeUpdate(TaskTypeBase):
     pass
     
 class UserTaskBase(SQLModel):
-    user_id: uuid.UUID = Field(sa_column=Column(UUID(as_uuid=True), ForeignKey("user.id")))
-    task_id: uuid.UUID = Field(sa_column=Column(UUID(as_uuid=True), ForeignKey("task.id")))
+    user_id: uuid.UUID = Field(sa_column=Column(UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE")))
+    task_id: uuid.UUID = Field(sa_column=Column(UUID(as_uuid=True), ForeignKey("task.id", ondelete="CASCADE")))
 
 class UserTaskCreate(UserTaskBase):
     pass
