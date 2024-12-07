@@ -172,7 +172,7 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
   return (
     <div className={styles.container}>
       <div className={styles.topnav}>
-        <img src={burger} alt="" className=""/>
+        <img src={burger} alt="" className="" onClick={toggleMenu}/>
       </div>
       
       <div className={styles.handcontainer}>
