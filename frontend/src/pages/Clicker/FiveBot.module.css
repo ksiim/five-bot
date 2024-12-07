@@ -9,11 +9,11 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 422px) {
+@media (max-width: 359px) {
   /* Стили для экранов меньше 375px */
   .container {
     width: 100%;
-    max-width: 422px; /* Максимальная ширина для мини приложения */
+    max-width: 359px; /* Максимальная ширина для мини приложения */
     height: 625px; /* Максимальная высота для мини приложения */
   }
 }
@@ -85,10 +85,6 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.handButton {
-  width: 100vw;
-}
-
 .circle {
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
