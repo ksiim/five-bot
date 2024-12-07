@@ -65,7 +65,7 @@ body {
 
 .content {
   width: 100%;
-  height: calc(100% + 18vw); // Adjust the height
+  height: calc(100%); // Adjust the height
   overflow: hidden; // Prevent content from expanding beyond container
 }
 
@@ -76,7 +76,7 @@ body {
   flex-direction: column;
   gap: 3.33vw;
   overflow-y: scroll; // Changed from auto to scroll
-  padding-bottom: 10vw; // Reduced padding
+  padding-bottom: 46vw; // Reduced padding
   overscroll-behavior: contain; // Prevent scroll bouncing
 
   // Improved scrollbar styles
