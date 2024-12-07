@@ -45,7 +45,7 @@ async def get_current_active_superuser(current_user: CurrentUser) -> User:
 
 async def is_in_channel_func(channel_id, telegram_id):
     bot_token = BOT_TOKEN
-    async with aiohttp.ClientSssion() as session:
+    async with aiohttp.ClientSession() as session:
         async with session.get(
             f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
         ) as response:
