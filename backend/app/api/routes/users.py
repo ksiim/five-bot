@@ -223,7 +223,7 @@ async def get_user_rate(
     user_rank = result.fetchone()
     
     if user_rank:
-        return user_rank.rank
+        return user_rank.rank + 1
     
     return -1  # Если пользователь не найден в рейтинге
 
