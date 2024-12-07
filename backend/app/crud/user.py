@@ -39,8 +39,9 @@ async def process_user_bonus(session, user_create):
     
     initial_bonus = await get_initial_bonus(session, user_create)
         
-    await update_balance(session, from_user, int(initial_bonus.value))
-    await update_balance(session, user_create, int(initial_bonus.value))
+    initial_bonus_amount = int(initial_bonus.value)
+    await update_balance(session, from_user, initial_bonus_amount)
+    await update_balance(session, user_create, initial_bonus_amount)
 
 async def get_initial_bonus(session, user_create):
     if user_create.premium:
