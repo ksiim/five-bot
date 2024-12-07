@@ -62,7 +62,7 @@ body {
 
 .content {
   width: 100%;
-  height: calc(100% + 18vw);
+  height: 100%;
   overflow: hidden;
 }
 
@@ -73,7 +73,7 @@ body {
   flex-direction: column;
   gap: 3.33vw;
   overflow-y: scroll;
-  padding-bottom: 10vw;
+  padding-bottom: 20vw;
   overscroll-behavior: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
