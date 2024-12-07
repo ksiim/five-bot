@@ -27,3 +27,9 @@
   font-size: 5vw;
   cursor: pointer;
 }
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 3vw;
+}
