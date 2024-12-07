@@ -60,7 +60,7 @@
 .buttonGroup {
   display: flex;
   flex-direction: column;
-  gap: 2.5vw;
+  gap: 2vw;
 }
 
 /*# sourceMappingURL=TaskPopup.module.css.map */
