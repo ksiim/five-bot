@@ -6,7 +6,7 @@
   height: 58vw;
   background-color: rgb(132, 150, 200);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-  padding: 30px 15px 38px 15px;
+  padding: 20px 15px 38px 15px;
   z-index: 100;
   border-radius: 10px 10px 0 0;
 }
@@ -52,4 +52,10 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4vw;
 }
