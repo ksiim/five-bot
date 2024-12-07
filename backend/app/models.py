@@ -81,8 +81,8 @@ class TaskTypeUpdate(TaskTypeBase):
     pass
     
 class UserTaskBase(SQLModel):
-    user_id: uuid.UUID = Field(foreign_key="user.id")
-    task_id: uuid.UUID = Field(foreign_key="task.id")
+    user_id: uuid.UUID = Field(foreign_key="user.id", ondelete="CASCADE")
+    task_id: uuid.UUID = Field(foreign_key="task.id", ondelete="CASCADE")
 
 class UserTaskCreate(UserTaskBase):
     pass
