@@ -62,7 +62,7 @@ body {
 
 .content {
   width: 100%;
-  height: calc(100% - 22vw);
+  height: calc(100% - 18vw);
   overflow: hidden;
 }
 
