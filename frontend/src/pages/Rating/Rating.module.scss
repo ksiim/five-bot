@@ -76,7 +76,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px; /* Отступы между элементами списка */
-  padding-bottom: 20px; /* Учитывайте нижний навигационный бар */ // Prevent scroll bouncing
+  //padding-bottom: 20vw; /* Учитывайте нижний навигационный бар */
+  overscroll-behavior: contain; // Prevent scroll bouncing
 
   // Improved scrollbar styles
   scrollbar-width: none; // For Firefox

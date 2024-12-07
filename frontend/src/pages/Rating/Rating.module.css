@@ -74,7 +74,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px; /* Отступы между элементами списка */
-  padding-bottom: 20px; /* Учитывайте нижний навигационный бар */
+  overscroll-behavior: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
