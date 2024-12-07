@@ -28,7 +28,10 @@ async def init_db(session: AsyncSession) -> None:
         initial_bonus = Setting(name="initial_bonus", value=INITIAL_BONUS_VALUE)
         initial_bonus_with_premium = Setting(name="initial_bonus_with_premium", value=INITIAL_BONUS_WITH_PREMIUM_VALUE)
         
+        
         session.add(give_five)
         session.add(give_five_to_referrer)
+        session.add(initial_bonus)
+        session.add(initial_bonus_with_premium)
         
         await session.commit()
