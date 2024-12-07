@@ -21,16 +21,18 @@ async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User
     if telegram_id_query_result:
         raise HTTPException(status_code=400, detail="Telegram ID already exists")
     
-    if user_create.from_user_telegram_id:
-        await process_user_bonus(session, user_create)
         
     db_obj = User(**user_create.model_dump())
     session.add(db_obj)
     await session.commit()
     await session.refresh(db_obj)
+    
+    if db_obj.from_user_telegram_id:
+        await process_user_bonus(session, db_obj)
+        
     return db_obj
 
-async def process_user_bonus(session, user_create):
+async def process_user_bonus(session, user_create: User):
     from_user = await get_user_by_telegram_id(session, user_create.from_user_telegram_id)
     if not from_user:
         raise HTTPException(status_code=400, detail="From user not found")
