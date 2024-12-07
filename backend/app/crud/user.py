@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.models import User, UserCreate
+from app.crud import setting as crud_setting
 
 
 async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User:
@@ -20,6 +21,9 @@ async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User
     if telegram_id_query_result:
         raise HTTPException(status_code=400, detail="Telegram ID already exists")
     
+    if user_create.from_user_telegram_id:
+        await process_user_bonus(session, user_create)
+        
     db_obj = User.model_validate(
         user_create,
     )
@@ -27,6 +31,23 @@ async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User
     await session.commit()
     await session.refresh(db_obj)
     return db_obj
+
+async def process_user_bonus(session, user_create):
+    from_user = await get_user_by_telegram_id(session, user_create.from_user_telegram_id)
+    if not from_user:
+        raise HTTPException(status_code=400, detail="From user not found")
+    
+    initial_bonus = await get_initial_bonus(session, user_create)
+        
+    await update_balance(session, from_user, initial_bonus.value)
+    await update_balance(session, user_create, initial_bonus.value)
+
+async def get_initial_bonus(session, user_create):
+    if user_create.premium:
+        initial_bonus = await crud_setting.get_setting_by_name(session, "initial_bonus_with_premium")
+    else:
+        initial_bonus = await crud_setting.get_setting_by_name(session, "initial_bonus")
+    return initial_bonus
 
 async def get_users(*, session: AsyncSession) -> Any:
     users = await session.execute(select(User))

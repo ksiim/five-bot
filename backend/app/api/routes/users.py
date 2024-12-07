@@ -228,3 +228,19 @@ async def delete_user(
         raise HTTPException(status_code=404, detail="User not found")
     await crud_user.delete_user(session=session, user=user)
     return 'User deleted'
+
+@router.get(
+    '/count_of_referrals/{telegram_id}',
+)
+async def get_count_of_referrals(
+    telegram_id: int,
+    session: SessionDep
+):
+    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    count = await session.execute(select(func.count(User.id)).where(User.from_user_telegram_id == user.telegram_id))
+    count = count.scalar()
+    
+    return count

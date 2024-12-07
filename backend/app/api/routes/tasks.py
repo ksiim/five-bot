@@ -1,16 +1,13 @@
-import datetime
-import logging
 import uuid
 from typing import Any, Optional
 
-import aiohttp
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import col, delete, func, select
 
 from app.crud import task as crud_task
 from app.crud import user as crud_user
 from app.api.deps import (
-    SessionDep,
+    SessionDep, is_in_channel_func
 )
 from app.models import (
     Task,
@@ -19,7 +16,6 @@ from app.models import (
     TasksPublic,
     UserTask,
 )
-from app.core import config
 
 router = APIRouter()
 
@@ -122,19 +118,6 @@ async def read_tasks_for_telegram_id(
     uncompleted_tasks = (await session.execute(uncompleted_tasks_statement)).scalars().all()
 
     return TasksPublic(data=uncompleted_tasks, count=len(uncompleted_tasks))
-
-async def is_in_channel_func(channel_id, telegram_id):
-    bot_token = config.BOT_TOKEN
-    async with aiohttp.ClientSession() as session:
-        async with session.get(
-            f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
-        ) as response:
-            data = await response.json()
-            chat_member_status = data.get("result", {}).get("status")
-            print(f"TG_ID: {telegram_id}; chat_member_status: {chat_member_status}")
-            if chat_member_status is None:
-                return False
-            return chat_member_status != "left"
             
 @router.get(
     '/is_in_channel/{channel_id}&{telegram_id}',

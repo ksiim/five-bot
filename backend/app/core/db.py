@@ -25,6 +25,8 @@ async def init_db(session: AsyncSession) -> None:
     if not settings:
         give_five = Setting(name="give_five_value", value=GIVE_FIVE_VALUE)
         give_five_to_referrer = Setting(name="give_five_to_referrer_value", value=GIVE_FIVE_TO_REFERRER_VALUE)
+        initial_bonus = Setting(name="initial_bonus", value=INITIAL_BONUS_VALUE)
+        initial_bonus_with_premium = Setting(name="initial_bonus_with_premium", value=INITIAL_BONUS_WITH_PREMIUM_VALUE)
         
         session.add(give_five)
         session.add(give_five_to_referrer)

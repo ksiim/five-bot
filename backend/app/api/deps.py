@@ -1,6 +1,7 @@
 from collections.abc import Generator, Coroutine
 from typing import Annotated
 
+import aiohttp
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import ValidationError
@@ -41,3 +42,16 @@ async def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=403, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+async def is_in_channel_func(channel_id, telegram_id):
+    bot_token = BOT_TOKEN
+    async with aiohttp.ClientSssion() as session:
+        async with session.get(
+            f"https://api.telegram.org/bot{bot_token}/getChatMember?chat_id={channel_id}&user_id={telegram_id}"
+        ) as response:
+            data = await response.json()
+            chat_member_status = data.get("result", {}).get("status")
+            print(f"TG_ID: {telegram_id}; chat_member_status: {chat_member_status}")
+            if chat_member_status is None:
+                return False
+            return chat_member_status != "left"
