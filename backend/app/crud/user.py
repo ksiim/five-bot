@@ -24,9 +24,7 @@ async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User
     if user_create.from_user_telegram_id:
         await process_user_bonus(session, user_create)
         
-    db_obj = User.model_validate(
-        user_create,
-    )
+    db_obj = User(**user_create.model_dump())
     session.add(db_obj)
     await session.commit()
     await session.refresh(db_obj)
