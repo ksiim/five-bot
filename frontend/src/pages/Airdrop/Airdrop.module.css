@@ -113,9 +113,9 @@ body {
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  padding: 2.86vw 0;
+  padding: 10px 0;
   background-color: rgb(130, 159, 200);
-  border-radius: 2.86vw 2.86vw 0 0;
+  border-radius: 10px 10px 0 0;
   z-index: 10;
 }
 

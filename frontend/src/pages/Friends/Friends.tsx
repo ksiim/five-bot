@@ -9,7 +9,6 @@ import friends from '../../assets/images/friends_active.svg';
 import rating from '../../assets/images/rating.svg';
 import { useNavigate } from 'react-router-dom';
 import { TG, request } from '../../api/request.ts';
-import Loader from '../../components/Loader/Loader.tsx'; // Укажите правильный путь
 
 const Friends: React.FC = () => {
   const navigate = useNavigate();
@@ -109,7 +108,7 @@ const Friends: React.FC = () => {
             давать пять.
           </p>
             <p className={styles.referralsCount}>
-              Количество приглашённых друзей: {referralsCount !== null ? referralsCount : <Loader/>}
+              Количество приглашённых друзей: {referralsCount !== null ? referralsCount : "Загрузка..."}
             </p>
         </div>
       </div>

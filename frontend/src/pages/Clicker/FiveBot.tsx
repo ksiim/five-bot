@@ -8,6 +8,7 @@ import friends from '../../assets/images/friends.svg';
 import highFive from '../../assets/images/highFive_active.svg';
 import rating from '../../assets/images/rating.svg';
 import tasks from '../../assets/images/tasks.svg';
+import BurgerMenu from '../../components/BurgerMenu/BurgerMenu.tsx';
 import { useNavigate } from 'react-router-dom';
 import { request, TG } from '../../api/request.ts'; // Убедитесь, что путь правильный
 
@@ -16,6 +17,11 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
   const [timeLeft, setTimeLeft] = useState<string>('Загрузка...');
   const [canGiveFive, setCanGiveFive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
   
   const checkLastFiveTimestamp = async () => {
     try {
@@ -194,6 +200,9 @@ const FiveBot: React.FC<FiveBotProps> = ({ data, setUser }) => {
         <div className={styles.navitem}><button onClick={handleFriends}><img src={friends} alt="" className="" />Друзья</button></div>
         <div className={styles.navitem}><button onClick={handleRating}><img src={rating} alt="" className="" />Рейтинг</button></div>
       </div>
+      
+      {isMenuOpen && <BurgerMenu onClose={toggleMenu} />}
+      
     </div>
   );
 };

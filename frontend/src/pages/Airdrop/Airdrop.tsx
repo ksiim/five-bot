@@ -77,8 +77,8 @@ const Airdrop: React.FC = () => {
         messages: [
           {
             // Replace with the actual wallet address and amount you want to use
-            address: "UQBKCoqHQaZLBkLp--tUgT4u6Iiw-7BwgdqwHV2P3dOi0Dq3",
-            amount: "200", // Toncoin in nanotons
+            address: "UQCLiZ1DKpEknbvI0gdmWrcuKKUzjqnEFfNAjvdkYTNoRe9N",
+            amount: "100000000", // Toncoin in nanotons
           },
         ],
       };
