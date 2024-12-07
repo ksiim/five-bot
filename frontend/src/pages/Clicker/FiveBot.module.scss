@@ -76,11 +76,6 @@ body {
   color: #fff;
 }
 
-.balanceinfo h2 {
-  font-size: 0.02vh;
-  margin: 0;
-}
-
 .balanceinfo h1 {
   font-size: 48px;
   margin: 0;
@@ -96,6 +91,10 @@ body {
 
   button .handimage{
   }
+}
+
+.handButton{
+  width: 100vw;
 }
 
 .circle {
