@@ -69,7 +69,7 @@ const Friends: React.FC = () => {
         throw new Error('Не удалось получить Telegram ID');
       }
       
-      const endpoint = `users/referral-share-link/${telegram_id}&Вас приглашает друг`;
+      const endpoint = `users/referral-share-link/${telegram_id}&Переходи по моей дружеской ссылке и получай +500 $FIVE в подарок 👋`;
       
       const response = await request(endpoint, 'GET', null);
       
