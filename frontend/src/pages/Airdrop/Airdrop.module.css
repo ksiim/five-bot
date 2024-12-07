@@ -56,14 +56,14 @@ body {
   background: inherit;
 }
 .content h1 {
-  font-size: 30px;
+  font-size: 8.57vw;
   font-weight: bold;
   color: #ffffff;
   text-align: left;
   margin-bottom: 4.7vw;
 }
 .content h2 {
-  font-size: 16px;
+  font-size: 4.57vw;
   font-weight: bold;
   color: #ffffff;
   text-align: left;
@@ -88,8 +88,8 @@ body {
 }
 
 .paragraphs p {
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 4vw;
+  line-height: 4.57vw;
   font-weight: bold;
   color: #ffffff;
 }
@@ -113,9 +113,9 @@ body {
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 2.86vw 0;
   background-color: rgb(130, 159, 200);
-  border-radius: 10px 10px 0 0;
+  border-radius: 2.86vw 2.86vw 0 0;
   z-index: 10;
 }
 
@@ -133,7 +133,7 @@ body {
   text-align: center;
   align-items: center;
   color: white;
-  font-size: 10px;
+  font-size: 2.86vw;
 }
 .navitem img {
   color: #CFCFCF;
