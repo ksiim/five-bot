@@ -8,7 +8,8 @@ import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends_active.svg';
 import rating from '../../assets/images/rating.svg';
 import { useNavigate } from 'react-router-dom';
-import { TG, request } from '../../api/request.ts'; // Укажите правильный путь
+import { TG, request } from '../../api/request.ts';
+import Loader from '../../components/Loader/Loader.tsx'; // Укажите правильный путь
 
 const Friends: React.FC = () => {
   const navigate = useNavigate();
@@ -107,12 +108,9 @@ const Friends: React.FC = () => {
             Вы также будете получать 100 $FIVE, каждый раз, когда ваш друг будет
             давать пять.
           </p>
-          {/* Отображение количества приглашённых друзей */}
-          {referralsCount !== null && (
             <p className={styles.referralsCount}>
-              Количество приглашённых друзей: {referralsCount}
+              Количество приглашённых друзей: {referralsCount !== null ? referralsCount : <Loader/>}
             </p>
-          )}
         </div>
       </div>
       <div className={styles.bottomnav}>
