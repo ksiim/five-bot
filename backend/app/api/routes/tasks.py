@@ -13,6 +13,7 @@ from app.models import (
     Task,
     TaskCreate,
     TaskPublic,
+    TaskUpdate,
     TasksPublic,
     UserTask,
 )
@@ -91,10 +92,11 @@ async def read_task_by_id(
 )
 async def update_task(
     task_id: uuid.UUID,
-    task_update: TaskCreate,
+    task_update: TaskUpdate,
     session: SessionDep,
 ):
-    task = await crud_task.update_task(session=session, task_id=task_id, task_update=task_update)
+    task = await crud_task.get_task_by_id(session=session, task_id=task_id)
+    task = await crud_task.update_task(session=session, task=task, task_update=task_update)
     return task
 
 
