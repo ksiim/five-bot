@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@media (max-width: 359px) {
+  /* Стили для экранов меньше 375px */
+  .container {
+    width: 100%;
+    max-width: 359px; /* Максимальная ширина для мини приложения */
+    height: 625px; /* Максимальная высота для мини приложения */
+  }
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -119,15 +130,10 @@ body {
     font-size: 10px;
   }
 
+
   img {
     color: #CFCFCF;
     height: 9.7vw;
     margin-bottom: 2vw;
-  }
-}
-
-@media (max-width: 422px) {
-  .container {
-    max-width: 422px;
   }
 }

@@ -23,7 +23,7 @@ const Friends: React.FC = () => {
         throw new Error('Не удалось получить Telegram ID');
       }
       
-      const endpoint = `/api/v1/users/count_of_referrals/${TG.initDataUnsafe.user.id}`;
+      const endpoint = `users/count_of_referrals/${TG.initDataUnsafe.user.id}`;
       const response = await request(endpoint, 'GET', null);
       
       if (typeof response === 'number') {
