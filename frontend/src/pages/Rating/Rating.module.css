@@ -40,14 +40,14 @@ body {
   height: calc(100vh - 20vw);
 }
 
-.content {
+.innerContent {
   width: 100%;
   position: sticky;
   top: 22vw;
   z-index: 2;
   background: inherit;
 }
-.content h1 {
+.innerContent h1 {
   font-size: 30px;
   font-weight: bold;
   color: #ffffff;
@@ -60,7 +60,7 @@ body {
   margin-bottom: 7.5vw;
 }
 
-.content {
+.innerContent {
   width: 100%;
   height: calc(100% - 18vw);
   overflow: hidden;

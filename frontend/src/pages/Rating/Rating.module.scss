@@ -42,7 +42,7 @@ body {
   height: calc(100vh - 20vw); // Учитываем высоту нижней навигации
 }
 
-.content {
+.innerContent {
   width: 100%;
   position: sticky;
   top: 22vw;
@@ -63,7 +63,7 @@ body {
   margin-bottom: 7.5vw;
 }
 
-.content {
+.innerContent {
   width: 100%;
   height: calc(100% - 18vw); // Adjust the height
   overflow: hidden; // Prevent content from expanding beyond container

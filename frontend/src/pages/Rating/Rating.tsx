@@ -100,7 +100,7 @@ const Rating: React.FC = () => {
           {loading ? (
             <Loader/>
           ) : (
-            <>
+            <div className={styles.innerContent}>
               {currentUser && (
                 <div className={styles.fixedUserCard}>
                   <RatingCard
@@ -121,7 +121,7 @@ const Rating: React.FC = () => {
                   />
                 ))}
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
