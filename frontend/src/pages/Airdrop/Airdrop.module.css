@@ -9,12 +9,12 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 422px) {
   /* Стили для экранов меньше 375px */
   .container {
     width: 100%;
     max-width: 422px; /* Максимальная ширина для мини приложения */
-    height: 674px; /* Максимальная высота для мини приложения */
+    height: 625px; /* Максимальная высота для мини приложения */
   }
 }
 body {
@@ -133,7 +133,7 @@ body {
   text-align: center;
   align-items: center;
   color: white;
-  font-size: 2.86vw;
+  font-size: 10px;
 }
 .navitem img {
   color: #CFCFCF;

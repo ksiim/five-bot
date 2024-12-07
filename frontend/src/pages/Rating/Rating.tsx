@@ -33,7 +33,7 @@ const Rating: React.FC = () => {
       try {
         setLoading(true);
         
-        // Fetch top 50 users with query parameters in URL
+        // Fetch top 50 users
         const usersResponse = await request(
           'users/?limit=50&sort_by=balance&sort_order=desc',
           'GET',
@@ -47,26 +47,28 @@ const Rating: React.FC = () => {
           null
         );
         
+        // Replace -1 with ">50"
+        const formattedPlace = userPlace === -1 ? '>50' : userPlace;
+        
         // Find current user in the response
         const currentUserData = usersResponse.data.find(
           (user: IUser) => user.telegram_id === TG.initDataUnsafe.user.id
         );
         
-        
         if (currentUserData) {
           setCurrentUser({
             ...currentUserData,
-            place: userPlace
+            place: formattedPlace,
           });
         }
         
-        // Process users list and add (Вы) to current user's username
+        // Process users list
         const processedUsers = usersResponse.data.map((user: IUser, index: number) => ({
           ...user,
           username: user.telegram_id === TG.initDataUnsafe.user.id
             ? `${user.username || 'Пользователь'} (Вы)`
             : user.username || 'Пользователь',
-          place: index + 1
+          place: index + 1,
         }));
         
         setTopUsers(processedUsers);
@@ -81,6 +83,7 @@ const Rating: React.FC = () => {
     
     fetchData();
   }, []);
+  
   
   const handleAirdrop = () => navigate('/airdrop');
   const handleFriends = () => navigate('/friends');

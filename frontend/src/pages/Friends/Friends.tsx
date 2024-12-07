@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './Friends.module.scss'
+import React, { useState, useEffect } from 'react';
+import styles from './Friends.module.scss';
 import Button from '../../components/Button/Button.tsx';
 import linkIcon from '../../assets/images/link.svg';
 import airdrop from '../../assets/images/airdrop.svg';
@@ -7,55 +7,77 @@ import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends_active.svg';
 import rating from '../../assets/images/rating.svg';
-import {useNavigate} from 'react-router-dom';
-import { TG, request } from '../../api/request.ts' // Укажите правильный путь
+import { useNavigate } from 'react-router-dom';
+import { TG, request } from '../../api/request.ts'; // Укажите правильный путь
 
-const Friends:React.FC = () => {
-  const navigate = useNavigate()
+const Friends: React.FC = () => {
+  const navigate = useNavigate();
+  const [referralsCount, setReferralsCount] = useState<number | null>(null); // Состояние для количества друзей
   
-  const handleAirdrop = () => {
-    navigate('/airdrop')
-  }
-  
-  const handleFriends = () => {
-    navigate('/friends')
-  }
-  
-  const handleClicker = () => {
-    navigate('/')
-  }
-  
-  const handleTasks = () => {
-    navigate('/tasks')
-  }
-  
-  const handleRating = () => {
-    navigate('/rating')
-  }
-  
-  const generateReferralLink = async () => {
+  // Функция для получения количества друзей
+  const fetchReferralsCount = async () => {
     try {
-      // Получаем telegram_id из WebApp
       const telegram_id = TG.initDataUnsafe?.user?.id;
       
       if (!telegram_id) {
         throw new Error('Не удалось получить Telegram ID');
       }
       
-      // Формируем эндпоинт с параметрами
-      const endpoint = `users/referral-share-link/${telegram_id}&Вас приглашает друг`;
-      
-      // Делаем запрос
+      const endpoint = `/api/v1/users/count_of_referrals/${TG.initDataUnsafe.user.id}`;
       const response = await request(endpoint, 'GET', null);
       
-      // Проверяем, что ответ содержит ссылку и добавляем https:// если нужно
+      if (typeof response === 'number') {
+        setReferralsCount(response); // Сохраняем количество друзей в состоянии
+      } else {
+        console.error('Некорректный ответ API:', response);
+      }
+    } catch (error) {
+      console.error('Ошибка при получении количества приглашённых друзей:', error);
+    }
+  };
+  
+  // Вызов функции после монтирования компонента
+  useEffect(() => {
+    fetchReferralsCount();
+  }, []);
+  
+  const handleAirdrop = () => {
+    navigate('/airdrop');
+  };
+  
+  const handleFriends = () => {
+    navigate('/friends');
+  };
+  
+  const handleClicker = () => {
+    navigate('/');
+  };
+  
+  const handleTasks = () => {
+    navigate('/tasks');
+  };
+  
+  const handleRating = () => {
+    navigate('/rating');
+  };
+  
+  const generateReferralLink = async () => {
+    try {
+      const telegram_id = TG.initDataUnsafe?.user?.id;
+      
+      if (!telegram_id) {
+        throw new Error('Не удалось получить Telegram ID');
+      }
+      
+      const endpoint = `users/referral-share-link/${telegram_id}&Вас приглашает друг`;
+      
+      const response = await request(endpoint, 'GET', null);
+      
       const formattedLink = response.startsWith('https://')
         ? response
         : `https://${response}`;
       
-      // Проверяем, что ссылка корректная
       if (typeof formattedLink === 'string' && formattedLink.startsWith('https://')) {
-        // Используем метод Telegram WebApp для открытия ссылки в Telegram
         TG.openTelegramLink(formattedLink);
       } else {
         console.error('Некорректный формат ответа:', response);
@@ -65,7 +87,7 @@ const Friends:React.FC = () => {
       console.error('Ошибка при генерации реферальной ссылки:', error);
       TG.showAlert('Не удалось сгенерировать реферальную ссылку');
     }
-  }
+  };
   
   return (
     <div className={styles.wrapper}>
@@ -85,14 +107,45 @@ const Friends:React.FC = () => {
             Вы также будете получать 100 $FIVE, каждый раз, когда ваш друг будет
             давать пять.
           </p>
+          {/* Отображение количества приглашённых друзей */}
+          {referralsCount !== null && (
+            <p className={styles.referralsCount}>
+              Количество приглашённых друзей: {referralsCount}
+            </p>
+          )}
         </div>
       </div>
       <div className={styles.bottomnav}>
-        <div className={styles.navitem}><button onClick={handleAirdrop}><img src={airdrop} alt="" className=""/>Airdrop</button></div>
-        <div className={styles.navitem}><button onClick={handleTasks}><img src={tasks} alt='' className=''/>Задания</button></div>
-        <div className={styles.navitem}><button onClick={handleClicker}><img src={highFive} alt='' className=''/>Дай пять</button></div>
-        <div className={styles.navitem}><button onClick={handleFriends}><img src={friends} alt='' className=''/>Друзья</button></div>
-        <div className={styles.navitem}><button onClick={handleRating}><img src={rating} alt='' className=''/>Рейтинг</button></div>
+        <div className={styles.navitem}>
+          <button onClick={handleAirdrop}>
+            <img src={airdrop} alt="" />
+            Airdrop
+          </button>
+        </div>
+        <div className={styles.navitem}>
+          <button onClick={handleTasks}>
+            <img src={tasks} alt="" />
+            Задания
+          </button>
+        </div>
+        <div className={styles.navitem}>
+          <button onClick={handleClicker}>
+            <img src={highFive} alt="" />
+            Дай пять
+          </button>
+        </div>
+        <div className={styles.navitem}>
+          <button onClick={handleFriends}>
+            <img src={friends} alt="" />
+            Друзья
+          </button>
+        </div>
+        <div className={styles.navitem}>
+          <button onClick={handleRating}>
+            <img src={rating} alt="" />
+            Рейтинг
+          </button>
+        </div>
       </div>
     </div>
   );
