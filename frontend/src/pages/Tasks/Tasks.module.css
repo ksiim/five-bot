@@ -67,6 +67,7 @@ body {
   flex-direction: column;
   gap: 3.3vw;
   overflow-y: scroll;
+  margin-left: 0;
   padding: 0 0 46vw;
   overscroll-behavior: contain;
   scrollbar-width: none;
