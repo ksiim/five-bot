@@ -17,7 +17,7 @@ const Airdrop: React.FC = () => {
   const [tonConnectUI] = useTonConnectUI();
   const [tonWalletAddress, setTonWalletAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isTransactionCompleted, setIsTransactionCompleted] = useState(false); // Новый стейт
+  const [isTransactionCompleted, setIsTransactionCompleted] = useState<boolean>(false);
   
   const handleWalletConnection = useCallback((address: string) => {
     setTonWalletAddress(address);
@@ -39,6 +39,12 @@ const Airdrop: React.FC = () => {
       handleWalletConnection(savedAddress);
     } else {
       handleWalletDisconnection();
+    }
+    
+    // Проверяем, был ли завершен процесс транзакции на прошлой сессии
+    const transactionStatus = localStorage.getItem('transactionStatus');
+    if (transactionStatus === 'sent') {
+      setIsTransactionCompleted(true);
     }
     
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
@@ -86,7 +92,12 @@ const Airdrop: React.FC = () => {
       
       await tonConnectUI.sendTransaction(transaction);
       console.log("Transaction sent successfully!");
-      setIsTransactionCompleted(true); // Отметить, что транзакция выполнена
+      
+      // Отметим, что транзакция выполнена
+      setIsTransactionCompleted(true);
+      
+      // Сохранение состояния транзакции
+      localStorage.setItem('transactionStatus', 'sent');
     } catch (error) {
       console.error("Transaction failed:", error);
     }
