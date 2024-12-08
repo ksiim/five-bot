@@ -116,7 +116,7 @@ async def read_tasks_for_telegram_id(
     completed_tasks = (await session.execute(completed_tasks_statement)).scalars().all()
     completed_task_ids = [task.task_id for task in completed_tasks]
 
-    uncompleted_tasks_statement = select(Task).where(Task.id.notin_(completed_task_ids)).order_by(Task.created_at)
+    uncompleted_tasks_statement = select(Task).where(Task.id.notin_(completed_task_ids)).order_by(Task.order_number)
     uncompleted_tasks = (await session.execute(uncompleted_tasks_statement)).scalars().all()
 
     return TasksPublic(data=uncompleted_tasks, count=len(uncompleted_tasks))
