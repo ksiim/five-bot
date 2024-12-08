@@ -267,7 +267,7 @@ async def get_count_of_referrals(
     return count
 
 @router.get(
-    '/count',
+    '/count_of_users',
 )
 async def get_count_of_users(
     session: SessionDep

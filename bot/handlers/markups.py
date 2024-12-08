@@ -47,6 +47,7 @@ async def generate_statistic_text():
     
     statistic_text = f'Всего пользователей: {count_of_users}\n\nТоп рефералов:\n'
     for i, user in enumerate(top_refs):
-        statistic_text += f"{i + 1}. {user['full_name']} - {await get_refs_count(user["telegram_id"])} шт. \n"
+        print(i, user)
+        # statistic_text += f"{i + 1}. {user['full_name']} - {await get_refs_count(user["telegram_id"])} шт. \n"
     return statistic_text
     
