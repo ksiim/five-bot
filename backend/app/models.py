@@ -111,7 +111,7 @@ class TaskBase(SQLModel):
     link: str | None = Field(default=None, nullable=True)
     verification_link: str | None = Field(default=None, nullable=True)
     task_type_id: uuid.UUID = Field(foreign_key="tasktype.id")
-    order_number: int = Field(default=0, unique=True, nullable=True)
+    order_number: int | None = Field(default=0, unique=True, nullable=True)
     
 class TaskCreate(TaskBase):
     pass
