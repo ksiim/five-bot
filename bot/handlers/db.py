@@ -13,7 +13,7 @@ async def get_count_of_users():
         
 async def get_top_refs():
     async with aiohttp.ClientSession() as session:
-        async with session.get(f'{WEB_APP_URL}{API_V1_STR}/users/?skip=0&limit=10&sort_by=balance&sort_order=desc') as response:
+        async with session.get(f'{WEB_APP_URL}{API_V1_STR}/users/top_referrals_users/') as response:
             if response.status != 200:
                 return False
             top_refs = await response.json()
