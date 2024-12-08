@@ -32,21 +32,29 @@ body {
 }
 
 .container {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 22vw 4.2vw 0;
   width: 100%;
-  padding-bottom: 120px; /* Отступ для bottomnav */
-  height: 100%;
-  overflow: hidden;
+  height: calc(100vh - 20vw);
 }
 
 .content {
-  padding: 22vw 4.2vw 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: sticky;
+  top: 22vw;
+  z-index: 2;
+  background: inherit;
 }
 .content h1 {
-  font-size: 8.3vw;
-  margin-bottom: 5.5vw;
-  color: #ffffff;
+  font-size: 30px;
   font-weight: bold;
+  color: #ffffff;
+  text-align: left;
+  margin-bottom: 4.7vw;
 }
 .content p {
   margin-bottom: 5.5vw;
