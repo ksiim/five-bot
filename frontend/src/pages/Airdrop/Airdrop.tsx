@@ -9,6 +9,7 @@ import tasks from '../../assets/images/tasks.svg';
 import highFive from '../../assets/images/highFive.svg';
 import friends from '../../assets/images/friends.svg';
 import rating from '../../assets/images/rating.svg';
+import done from '../../assets/images/done.svg';
 import { useNavigate } from 'react-router-dom';
 
 const Airdrop: React.FC = () => {
@@ -16,6 +17,7 @@ const Airdrop: React.FC = () => {
   const [tonConnectUI] = useTonConnectUI();
   const [tonWalletAddress, setTonWalletAddress] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isTransactionCompleted, setIsTransactionCompleted] = useState(false); // Новый стейт
   
   const handleWalletConnection = useCallback((address: string) => {
     setTonWalletAddress(address);
@@ -76,7 +78,6 @@ const Airdrop: React.FC = () => {
         validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
         messages: [
           {
-            // Replace with the actual wallet address and amount you want to use
             address: "UQCLiZ1DKpEknbvI0gdmWrcuKKUzjqnEFfNAjvdkYTNoRe9N",
             amount: "100000000", // Toncoin in nanotons
           },
@@ -85,6 +86,7 @@ const Airdrop: React.FC = () => {
       
       await tonConnectUI.sendTransaction(transaction);
       console.log("Transaction sent successfully!");
+      setIsTransactionCompleted(true); // Отметить, что транзакция выполнена
     } catch (error) {
       console.error("Transaction failed:", error);
     }
@@ -125,11 +127,20 @@ const Airdrop: React.FC = () => {
                   />
                 )}
                 
-                {tonWalletAddress && (
+                {tonWalletAddress && !isTransactionCompleted && (
                   <Button
                     text="2. Совершите TON транзакцию"
                     icon={tonIcon}
                     onClick={handleTransaction}
+                    disabled={isTransactionCompleted} // Делает кнопку некликабельной после выполнения транзакции
+                  />
+                )}
+                
+                {isTransactionCompleted && (
+                  <Button
+                    text="Транзакция выполнена"
+                    icon={done}
+                    disabled={true} // Делает кнопку некликабельной
                   />
                 )}
                 
