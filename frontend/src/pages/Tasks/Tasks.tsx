@@ -90,26 +90,27 @@ const Tasks: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1>Задачи</h1>
-          <p>Выполняйте задания и зарабатывайте больше $FIVE</p>
-        </div>
-        
-        <div className={styles.taskList}>
-          {isLoading ? (
-            <Loader/> // Добавлен текст загрузки
-          ) : tasks.length === 0 ? (
-            <p>Нет доступных задач</p>
-          ) : (
-            tasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                iconUrl={linkIcon}
-                taskName={task.title}
-                cost={task.reward}
-                onClick={() => setSelectedTask(task)}
-              />
-            ))
-          )}
+            <h1>Задачи</h1>
+            <p>Выполняйте задания и зарабатывайте больше $FIVE</p>
+          
+          
+          <div className={styles.taskList}>
+            {isLoading ? (
+              <Loader/> // Добавлен текст загрузки
+            ) : tasks.length === 0 ? (
+              <p>Нет доступных задач</p>
+            ) : (
+              tasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  iconUrl={linkIcon}
+                  taskName={task.title}
+                  cost={task.reward}
+                  onClick={() => setSelectedTask(task)}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
       
