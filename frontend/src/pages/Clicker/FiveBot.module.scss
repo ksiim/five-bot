@@ -68,14 +68,16 @@ body {
 }
 
 .balanceinfo {
-  width: 21.3vw;
-  height: 8.6vh;
-  text-align: center;
+  display: flex; /* Используем flexbox */
+  justify-content: center; /* Горизонтальное выравнивание */
+  align-items: center; /* Вертикальное выравнивание */
+  width: 21.3vw; /* Убедитесь, что ширина задана корректно */
+  height: 8.6vh; /* Убедитесь, что высота задана корректно */
+  text-align: center; /* Запасное правило */
   font-size: 1em;
   font-weight: 700;
   color: #fff;
 }
-
 
 
 .balanceinfo h1 {
