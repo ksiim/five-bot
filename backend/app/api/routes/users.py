@@ -265,3 +265,14 @@ async def get_count_of_referrals(
     count = count.scalar()
     
     return count
+
+@router.get(
+    '/count',
+)
+async def get_count_of_users(
+    session: SessionDep
+):
+    count = await session.execute(select(func.count(User.id)))
+    count = count.scalar()
+    
+    return count
