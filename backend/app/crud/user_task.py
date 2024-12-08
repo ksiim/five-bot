@@ -39,6 +39,7 @@ async def get_all_user_tasks(session: AsyncSession) -> Any:
     user_tasks_list = user_tasks.scalars().all()
     
     user_tasks_count = await session.execute(select(func.count(UserTask.id)))
+    user_tasks_count = user_tasks_count.scalar()
     
     return UserTasksPublic(data=user_tasks_list, count=user_tasks_count)
 
