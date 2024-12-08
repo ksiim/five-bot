@@ -25,8 +25,8 @@ web_app_inline_markup = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(
-                text="✨ Подписать на канал ✨",
-                url="https://t.me/givefive_community"
+                text="✨ Подписаться на канал ✨",
+                url="https://t.me/highfive_community"
             )
         ]
     ]
