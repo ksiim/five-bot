@@ -19,7 +19,7 @@ async def create_task(*, session: AsyncSession, task_create: TaskCreate) -> Task
     return db_obj
 
 async def get_tasks(*, session: AsyncSession) -> Any:
-    tasks = await session.execute(select(Task))
+    tasks = await session.execute(select(Task).order_by(Task.created_at))
     return tasks.scalars().all()
 
 async def get_task_by_id(session: AsyncSession, task_id) -> Task:
