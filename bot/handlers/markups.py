@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from aiogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton,
     ReplyKeyboardMarkup, ReplyKeyboardRemove,
@@ -46,8 +47,9 @@ async def generate_statistic_text():
     )
     
     statistic_text = f'Всего пользователей: {count_of_users}\n\nТоп рефералов:\n'
-    for i, user in enumerate(top_refs):
-        print(i, user)
-        # statistic_text += f"{i + 1}. {user['full_name']} - {await get_refs_count(user["telegram_id"])} шт. \n"
+    top_refs = top_refs['data']
+    refs_counts = await asyncio.gather(*[get_refs_count(user['telegram_id']) for user in top_refs])
+    for index, (user, count_of_refs) in enumerate(zip(top_refs, refs_counts)):
+        statistic_text += f'{index + 1}. {user["username"]} - {count_of_refs}\n'
     return statistic_text
     

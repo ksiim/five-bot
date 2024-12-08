@@ -276,3 +276,31 @@ async def get_count_of_users(
     count = count.scalar()
     
     return count
+
+@router.get(
+    '/top_referrals_users/',
+)
+async def get_top_referrers(
+    session: SessionDep
+):
+    subquery = (
+        select(
+            User.from_user_telegram_id,
+            func.count(User.id).label('referral_count')
+        )
+        .where(User.from_user_telegram_id.isnot(None))
+        .group_by(User.from_user_telegram_id)
+        .subquery()
+    )
+
+    query = (
+        select(User, subquery.c.referral_count)
+        .join(subquery, User.telegram_id == subquery.c.from_user_telegram_id)
+        .order_by(desc(subquery.c.referral_count))
+        .limit(10)
+    )
+
+    result = await session.execute(query)
+    top_referrers = result.all()
+
+    return [{"user": user, "referral_count": referral_count} for user, referral_count in top_referrers]
