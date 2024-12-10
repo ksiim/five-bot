@@ -38,7 +38,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ onClose }) => {
               text={'Наш телеграм канал'}
               icon={telegramIcon}
               onClick={() =>
-                TG.openTelegramLink('https://t.me/givefive_community')
+                TG.openTelegramLink('https://t.me/highfive_community')
               }
             />
             <Button
@@ -46,7 +46,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({ onClose }) => {
               icon={documentIcon}
               onClick={() =>
                 TG.openLink(
-                  'https://telegra.ph/Standard-Bot-Privacy-Policy-for-givefive-bot-09-21',
+                  'https://telegra.ph/Standard-Bot-Privacy-Policy-for-High5iveBot-12-10',
                 )
               }
             />
