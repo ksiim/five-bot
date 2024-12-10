@@ -1,9 +1,17 @@
+import asyncio
+import logging
 from aiogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton,
     ReplyKeyboardMarkup, ReplyKeyboardRemove,
     KeyboardButton, WebAppInfo, Message
 )
 from config import WEB_APP_URL
+
+from .db import (
+    get_count_of_users,
+    get_refs_count,
+    get_top_refs
+)
 
 
 async def generate_greeting_message(message: Message):
@@ -31,3 +39,15 @@ web_app_inline_markup = InlineKeyboardMarkup(
         ]
     ]
 )
+
+async def generate_statistic_text():
+    count_of_users, top_refs = await asyncio.gather(
+        get_count_of_users(),
+        get_top_refs()
+    )
+    
+    statistic_text = f'Всего пользователей: {count_of_users}\n\nТоп рефералов:\n'
+    for i, user in enumerate(top_refs):
+        statistic_text += f"{i + 1}. {user['user']['username']} - {user['referral_count']} шт.\n"
+    return statistic_text
+    
