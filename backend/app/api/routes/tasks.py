@@ -129,5 +129,18 @@ async def is_in_channel(
     telegram_id: int,
 ):
     return await is_in_channel_func(channel_id, telegram_id)
+
+@router.get(
+    '/stump/{telegram_id}',
+)
+async def stump(
+    telegram_id: int,
+    session: SessionDep,
+):
+    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return True
     
     
