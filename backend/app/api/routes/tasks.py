@@ -131,10 +131,9 @@ async def is_in_channel(
     return await is_in_channel_func(channel_id, telegram_id)
 
 @router.get(
-    '/stump/{stump}&{telegram_id}',
+    '/stump/{telegram_id}',
 )
 async def stump(
-    stump: str,
     telegram_id: int,
     session: SessionDep,
 ):
