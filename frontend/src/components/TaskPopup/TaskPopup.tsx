@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './TaskPopup.module.scss';
 import Button from '../Button/Button.tsx';
 import walletIcon from '../../assets/images/wallet.svg';
@@ -19,25 +19,27 @@ interface TaskPopupProps {
 }
 
 interface taskUserData {
-  user_id: string,
-  task_id: string
+  user_id: string;
+  task_id: string;
 }
 
 const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [verificationMessage, setVerificationMessage] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isVerifyVisible, setIsVerifyVisible] = useState(false); // Добавлено состояние для управления видимостью кнопки "Проверить"
   
   const handleOpenLink = () => {
     if (task.link) {
       window.open(task.link, '_blank', 'noopener,noreferrer');
     }
+    setIsVerifyVisible(true); // Показываем кнопку "Проверить"
   };
   
   useEffect(() => {
     setIsOpen(true); // Показываем поп-ап при монтировании
     return () => setIsOpen(false); // Убираем поп-ап при размонтировании
-  }, [])
+  }, []);
   
   const handleClose = () => {
     setIsOpen(false); // Убираем поп-ап с анимацией
@@ -57,10 +59,10 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       const userResponse = await request(`users/${telegramId}`, 'GET', null);
       console.log(userResponse);
       
-      const taskUserInfo:taskUserData = {
-        user_id:userResponse.id,
-        task_id:task.id
-      }
+      const taskUserInfo: taskUserData = {
+        user_id: userResponse.id,
+        task_id: task.id,
+      };
       
       // Check response and set appropriate status
       if (response === true) {
@@ -104,12 +106,14 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
               icon={walletIcon}
               onClick={handleOpenLink}
             />
-            <Button
-              text={'Проверить'}
-              icon={checkIcon}
-              onClick={handleVerifyTask}
-              disabled={verificationStatus === 'loading'}
-            />
+            {isVerifyVisible && ( // Условный рендеринг для кнопки "Проверить"
+              <Button
+                text={'Проверить'}
+                icon={checkIcon}
+                onClick={handleVerifyTask}
+                disabled={verificationStatus === 'loading'}
+              />
+            )}
           </div>
           {verificationMessage && (
             <p
