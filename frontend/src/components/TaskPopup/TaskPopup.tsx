@@ -56,6 +56,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       
       // Определяем URL для проверки задания
       let verificationUrl;
+      console.log(task.task_type_id);
       if (task.task_type_id === '0fbfdf74-7f59-42cc-b9d8-54a7e1958c0d') {
         verificationUrl = `tasks/stump/${telegramId}`;
       } else {
