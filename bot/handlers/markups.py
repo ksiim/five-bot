@@ -50,4 +50,10 @@ async def generate_statistic_text():
     for i, user in enumerate(top_refs):
         statistic_text += f"{i + 1}. {user['user']['username']} - {user['referral_count']} шт.\n"
     return statistic_text
+
+
+get_spam_pic_text = "Отправь мне картинку, которую хочешь отправить другим пользователям"
+get_spam_text = "Отправь мне текст, который хочешь отправить другим пользователям"
+get_spam_button_text = "Отправь мне текст, который будет написан на кнопке"
+get_spam_button_url = "Отправь мне ссылку, на которую будет вести кнопка"
     

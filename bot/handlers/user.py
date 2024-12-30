@@ -19,6 +19,7 @@ async def start(message: Message):
         reply_markup=web_app_inline_markup
     )
     
+    
 @dp.message()
 async def get_channel_id(message: Message):
     await message.answer(

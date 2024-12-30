@@ -26,3 +26,11 @@ async def get_refs_count(telegram_id):
                 return False
             count = await response.json()
             return count
+        
+async def get_all_user_ids():
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'{WEB_APP_URL}{API_V1_STR}/users/ids/') as response:
+            if response.status != 200:
+                return False
+            user_ids = await response.json()
+            return user_ids
