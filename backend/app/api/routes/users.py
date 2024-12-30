@@ -304,3 +304,15 @@ async def get_top_referrers(
     top_referrers = result.all()
 
     return [{"user": user, "referral_count": referral_count} for user, referral_count in top_referrers]
+
+
+@router.get(
+    '/ids/',
+)
+async def get_all_user_ids(
+    session: SessionDep
+):
+    user_ids = await session.execute(select(User.telegram_id))
+    user_ids = user_ids.scalars().all()
+    
+    return user_ids
