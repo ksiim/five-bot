@@ -14,6 +14,7 @@ interface TaskPopupProps {
     description?: string;
     link?: string;
     verification_link: string;
+    task_type_id: string;
   };
   onClose: () => void;
 }
@@ -48,15 +49,24 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
   
   const handleVerifyTask = async () => {
     try {
-      // Extract channel ID from verification link
       const telegramId = TG.initDataUnsafe.user.id;
       
       setVerificationStatus('loading');
       setVerificationMessage('');
       
-      // Make verification request
-      const response = await request(`${task.verification_link}&${telegramId}`, 'GET', null);
+      // Определяем URL для проверки задания
+      let verificationUrl;
+      console.log(task.task_type_id);
+      if (task.task_type_id === '0fbfdf74-7f59-42cc-b9d8-54a7e1958c0d') {
+        verificationUrl = `tasks/stump/${telegramId}`;
+      } else {
+        verificationUrl = `${task.verification_link}&${telegramId}`;
+      }
+      
+      // Отправляем запрос на проверку
+      const response = await request(verificationUrl, 'GET', null);
       const userResponse = await request(`users/${telegramId}`, 'GET', null);
+      
       console.log(userResponse);
       
       const taskUserInfo: taskUserData = {
@@ -64,9 +74,11 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
         task_id: task.id,
       };
       
-      // Check response and set appropriate status
+      // Обрабатываем ответ
       if (response === true) {
         await request('user-tasks/', 'POST', taskUserInfo);
+        setVerificationStatus('success');
+        setVerificationMessage('Задание выполнено успешно!');
         onClose();
       } else {
         setVerificationStatus('error');
@@ -78,6 +90,7 @@ const TaskPopup: React.FC<TaskPopupProps> = ({ task, onClose }) => {
       setVerificationMessage('Произошла ошибка при проверке');
     }
   };
+  
   
   return (
     <>

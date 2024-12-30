@@ -7,6 +7,7 @@ interface TaskCardProps {
   taskName: string;
   cost: number;
   onClick?: () => void; // Добавляем необязательный обработчик клика
+  task_type_id: string;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ iconUrl, taskName, cost, onClick }) => {

@@ -107,6 +107,7 @@ const Tasks: React.FC = () => {
                   taskName={task.title}
                   cost={task.reward}
                   onClick={() => setSelectedTask(task)}
+                  task_type_id = {task.task_type_id}
                 />
               ))
             )}
@@ -152,6 +153,7 @@ const Tasks: React.FC = () => {
             description: selectedTask.description,
             link: selectedTask.link,
             verification_link: selectedTask.verification_link,
+            task_type_id: selectedTask.task_type_id
           }}
           onClose={closePopup}
         />
