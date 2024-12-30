@@ -1,7 +1,7 @@
 import asyncio
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bot import bot
-from bot.handlers.db import get_all_user_ids
+from .db import get_all_user_ids
 
 
 async def send_photo_with_url_button(photo_id, message_text, keyboard, user_id):
