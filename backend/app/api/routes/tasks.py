@@ -6,6 +6,7 @@ from sqlmodel import col, delete, func, select
 
 from app.crud import task as crud_task
 from app.crud import user as crud_user
+from app.api.routes.users import get_count_of_referrals
 from app.api.deps import (
     SessionDep, is_in_channel_func
 )
@@ -142,5 +143,20 @@ async def stump(
         raise HTTPException(status_code=404, detail="User not found")
 
     return True
+
+@router.get(
+    '/has_enough_referrals/{count}&{telegram_id}',
+)
+async def has_enough_referrals(
+    count: int,
+    telegram_id: int,
+    session: SessionDep,
+):
+    user = await crud_user.get_user_by_telegram_id(session, telegram_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
     
+    referral_count = await get_count_of_referrals(user.telegram_id, session)
+
+    return referral_count >= count
     
